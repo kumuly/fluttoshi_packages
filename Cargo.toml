@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "packages/unified_mnemonic/rust",
+    "packages/lightning_message/rust",
+]
+
+[profile.release]
+lto = true
+codegen-units = 1
+debug = true
