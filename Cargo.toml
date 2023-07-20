@@ -1,7 +1,6 @@
 [workspace]
 members = [
-    "packages/unified_mnemonic/rust",
-    "packages/lightning_message/rust",
+    "packages/unified_mnemonic/native",
 ]
 
 [profile.release]

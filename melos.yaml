@@ -1,5 +1,5 @@
 name: fluttoshi_packages
-repository: https://www.github.com/kumuly/fluttoshi_packages
+repository: https://github.com/kumuly/fluttoshi_packages
 
 packages:
   - packages/**
@@ -38,11 +38,18 @@ scripts:
     description: Build the .tar.gz for all other platforms.
 
   test:
-    run: melos run test:selective_unit_test --no-select
-    description: Run all tests in this project.
+    run: melos run test:dart --no-select && melos run test:flutter --no-select
+    description: Run all Dart & Flutter tests in this project.
 
-  test:selective_unit_test:
-    run: melos exec --dir-exists="test" --fail-fast -- flutter test --no-pub --coverage
+  test:dart:
+    run: melos exec -c 1 --fail-fast -- "dart test test"
+    description: Run Dart tests for a specific package in this project.
+    packageFilters:
+      flutter: false
+      dirExists: test
+
+  test:flutter:
+    run: melos exec -c 1 --fail-fast -- "flutter test test"
     description: Run Flutter tests for a specific package in this project.
     packageFilters:
       flutter: true

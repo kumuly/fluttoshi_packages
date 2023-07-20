@@ -1,7 +1,10 @@
-library unified_mnemonic;
+/// Support for doing something awesome.
+///
+/// More dartdocs go here.
+library;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/unified_mnemonic_base.dart';
+
+// TODO: Export any libraries intended for clients of this package.
+export 'src/ffi.dart';
+export 'src/bridge_generated.dart';
