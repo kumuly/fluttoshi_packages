@@ -2,7 +2,7 @@ name: fluttoshi_packages
 repository: https://github.com/kumuly/fluttoshi_packages
 
 packages:
-  - packages/**
+  - packages/*
 
 scripts:
   analyze:
@@ -36,6 +36,22 @@ scripts:
   build:other:
     run: bash scripts/build-other.sh
     description: Build the .tar.gz for all other platforms.
+
+  copy:
+    run: melos run copy:apple && melos run copy:android && melos run copy:other
+    description: Copy all native libraries to the platform specific folders of the Flutter projects.
+
+  copy:apple:
+    run: bash scripts/copy-apple.sh
+    description: Copy the XCFramework's to the ios and macos folders of the Flutter projects.
+
+  copy:android:
+    run: bash scripts/copy-android.sh
+    description: Copy the .tar.gz's to the android folder of the Flutter projects.
+
+  copy:other:
+    run: bash scripts/copy-other.sh
+    description: Copy the .tar.gz's to the linux and windows folder of the Flutter projects.
 
   test:
     run: melos run test:dart --no-select && melos run test:flutter --no-select

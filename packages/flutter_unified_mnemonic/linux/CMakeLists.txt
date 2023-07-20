@@ -1,3 +1,5 @@
+set(LibraryVersion "unified_mnemonic-v0.0.0") # generated; do not edit
+
 # The Flutter tooling requires that developers have CMake 3.10 or later
 # installed. You should not increase this version, as doing so will cause
 # the plugin to fail to compile for some customers of the plugin.
@@ -7,16 +9,30 @@ cmake_minimum_required(VERSION 3.10)
 set(PROJECT_NAME "flutter_unified_mnemonic")
 project(${PROJECT_NAME} LANGUAGES CXX)
 
-# Invoke the build for native code shared with the other target platforms.
-# This can be changed to accommodate different builds.
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_BINARY_DIR}/shared")
+# Download the binaries if they are not already present.
+set(LibRoot "${CMAKE_CURRENT_SOURCE_DIR}/${LibraryVersion}")
+set(ArchivePath "${LibRoot}.tar.gz")
+
+if(NOT EXISTS ${ArchivePath})
+  file(DOWNLOAD
+    "https://github.com/kumuly/fluttoshi-packages/releases/download/${LibraryVersion}/other.tar.gz"
+    ${ArchivePath}
+    TLS_VERIFY ON
+  )
+endif()
+
+# Extract the binaries, overriding any already present.
+file(REMOVE_RECURSE ${LibRoot})
+file(MAKE_DIRECTORY ${LibRoot})
+execute_process(
+  COMMAND ${CMAKE_COMMAND} -E tar xzf ${ArchivePath}
+  WORKING_DIRECTORY ${LibRoot}
+)
 
 # List of absolute paths to libraries that should be bundled with the plugin.
 # This list could contain prebuilt libraries, or libraries created by an
 # external build triggered from this build file.
 set(flutter_unified_mnemonic_bundled_libraries
-  # Defined in ../src/CMakeLists.txt.
-  # This can be changed to accommodate different builds.
-  $<TARGET_FILE:flutter_unified_mnemonic>
+  "${LibRoot}/${FLUTTER_TARGET_PLATFORM}/libunified_mnemonic.so"
   PARENT_SCOPE
 )

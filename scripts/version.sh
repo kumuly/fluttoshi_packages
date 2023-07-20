@@ -1,22 +1,22 @@
 #!/bin/bash
 
-for PACKAGE in unified_mnemonic lightning_message
+for LIBRARY_NAME in unified_mnemonic
 do
-  CURR_VERSION=${PACKAGE}-v`awk '/^version: /{print $2}' packages/${PACKAGE}/pubspec.yaml`
+  CURR_VERSION=${LIBRARY_NAME}-v`awk '/^version: /{print $2}' packages/${LIBRARY_NAME}/pubspec.yaml`
 
   # iOS & macOS
   APPLE_HEADER="release_tag_name = '$CURR_VERSION' # generated; do not edit"
-  sed -i.bak "1 s/.*/$APPLE_HEADER/" packages/${PACKAGE}/ios/${PACKAGE}.podspec
-  sed -i.bak "1 s/.*/$APPLE_HEADER/" packages/${PACKAGE}/macos/${PACKAGE}.podspec
-  rm packages/${PACKAGE}/macos/*.bak packages/${PACKAGE}/ios/*.bak
+  sed -i.bak "1 s/.*/$APPLE_HEADER/" packages/${LIBRARY_NAME}/ios/${LIBRARY_NAME}.podspec
+  sed -i.bak "1 s/.*/$APPLE_HEADER/" packages/${LIBRARY_NAME}/macos/${LIBRARY_NAME}.podspec
+  rm packages/${LIBRARY_NAME}/macos/*.bak packages/${LIBRARY_NAME}/ios/*.bak
 
   # CMake platforms (Linux, Windows, and Android)
   CMAKE_HEADER="set(LibraryVersion \"$CURR_VERSION\") # generated; do not edit"
   for CMAKE_PLATFORM in android linux windows
   do
-      sed -i.bak "1 s/.*/$CMAKE_HEADER/" packages/${PACKAGE}/${CMAKE_PLATFORM}/CMakeLists.txt
-      rm packages/${PACKAGE}/${CMAKE_PLATFORM}/*.bak
+      sed -i.bak "1 s/.*/$CMAKE_HEADER/" packages/${LIBRARY_NAME}/${CMAKE_PLATFORM}/CMakeLists.txt
+      rm packages/${LIBRARY_NAME}/${CMAKE_PLATFORM}/*.bak
   done
 
-  git add packages/${PACKAGE}/
+  git add packages/${LIBRARY_NAME}/
 done

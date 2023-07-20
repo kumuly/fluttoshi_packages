@@ -3,8 +3,8 @@
 /// More dartdocs go here.
 library;
 
-export 'src/unified_mnemonic_base.dart';
+export 'src/ffi.dart';
 
 // TODO: Export any libraries intended for clients of this package.
-export 'src/ffi.dart';
+export 'package:flutter_rust_bridge/flutter_rust_bridge.dart' show WasmModule;
 export 'src/bridge_generated.dart';
