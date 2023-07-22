@@ -1,4 +1,4 @@
-release_tag_name = 'unified_mnemonic-v0.0.0' # generated; do not edit
+release_tag_name = 'unified_mnemonic-v1.0.0' # generated; do not edit
 
 # We cannot distribute the XCFramework alongside the library directly,
 # so we have to fetch the correct version here.
@@ -20,7 +20,7 @@ cd -
 `
 
 Pod::Spec.new do |spec|
-  spec.name          = 'unified_mnemonic'
+  spec.name          = 'flutter_unified_mnemonic'
   spec.version       = '0.0.1'
   spec.license       = { :file => '../LICENSE' }
   spec.homepage      = 'https://github.com/kumuly/fluttoshi_packages'

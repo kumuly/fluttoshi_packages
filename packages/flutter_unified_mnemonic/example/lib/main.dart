@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:flutter_unified_mnemonic/flutter_unified_mnemonic.dart';
 
@@ -21,8 +20,12 @@ class _MyAppState extends State<MyApp> {
   late String recoveredMnemonicLightningSeedHex;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
+    initAsyncState();
+  }
+
+  Future<void> initAsyncState() async {
     newMnemonic = await generateNewMnemonic(
         language: Language.Spanish, wordCount: WordCount.Words24);
     final newMnemonicLightningSeed =
@@ -50,42 +53,48 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Native Packages'),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                const Text(
-                  'This calls a native function through FFI that is build for the platform it is running on.',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
+        body: FutureBuilder(
+          future: initAsyncState(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'This calls a native function through FFI that is build for the platform it is running on.',
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                      spacerSmall,
+                      Text(
+                        'new mnemonic = ${newMnemonic.phrase}',
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                      spacerSmall,
+                      Text(
+                        'new mnemonic lightning seed = $newMnemonicLightningSeedHex',
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                      spacerSmall,
+                      Text(
+                        'recovered mnemonic lightning seed = $recoveredMnemonicLightningSeedHex',
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
-                spacerSmall,
-                Text(
-                  'new mnemonic = $newMnemonic',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
-                spacerSmall,
-                Text(
-                  'new mnemonic lightning seed = $newMnemonicLightningSeedHex',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'recovered mnemonic = $recoveredMnemonic',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
-                spacerSmall,
-                Text(
-                  'recovered mnemonic lightning seed = $recoveredMnemonicLightningSeedHex',
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
+              );
+            }
+          },
         ),
       ),
     );

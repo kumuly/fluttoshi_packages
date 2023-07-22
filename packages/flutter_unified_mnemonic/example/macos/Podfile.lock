@@ -1,0 +1,21 @@
+PODS:
+  - flutter_unified_mnemonic (0.0.1)
+  - FlutterMacOS (1.0.0)
+
+DEPENDENCIES:
+  - flutter_unified_mnemonic (from `Flutter/ephemeral/.symlinks/plugins/flutter_unified_mnemonic/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+
+EXTERNAL SOURCES:
+  flutter_unified_mnemonic:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_unified_mnemonic/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+
+SPEC CHECKSUMS:
+  flutter_unified_mnemonic: ad2178442264966f6eaeed4abe48787dfde3aeee
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+
+PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
+
+COCOAPODS: 1.11.2
