@@ -12,6 +12,22 @@ void main() async {
   );
 
   print('Mnemonic phrase: ${mnemonic.phrase}');
+
+  const recoveryPhrase =
+      'empty want equip quick that stuff motion floor oblige prize tower pigeon';
+  final recoverdMnemonic = await Mnemonic.fromPhrase(
+    bridge: unifiedMnemonic,
+    phrase: recoveryPhrase,
+  );
+
+  final lightningSeed =
+      await recoverdMnemonic.deriveLightningSeed(network: Network.Bitcoin);
+
+  // Todo: create a utility function in the package to convert the seed to hex.
+  final lightningSeedHex = lightningSeed
+      .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+      .join();
+  print('Seed for Lightning node: $lightningSeedHex');
 }
 
 DynamicLibrary getLibrary() {
