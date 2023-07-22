@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter_unified_mnemonic/flutter_unified_mnemonic.dart' as flutter_unified_mnemonic;
+import 'package:flutter_unified_mnemonic/flutter_unified_mnemonic.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,14 +15,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late int sumResult;
-  late Future<int> sumAsyncResult;
+  late Mnemonic newMnemonic;
+  late Mnemonic recoveredMnemonic;
+  late String newMnemonicLightningSeedHex;
+  late String recoveredMnemonicLightningSeedHex;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-    sumResult = flutter_unified_mnemonic.sum(1, 2);
-    sumAsyncResult = flutter_unified_mnemonic.sumAsync(3, 4);
+    newMnemonic = await generateNewMnemonic(
+        language: Language.Spanish, wordCount: WordCount.Words24);
+    final newMnemonicLightningSeed =
+        await newMnemonic.deriveLightningSeed(network: Network.Bitcoin);
+    newMnemonicLightningSeedHex = newMnemonicLightningSeed
+        .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+        .join();
+
+    const recoveryPhrase =
+        'goat magnet speed sweet release pill tiny decline talent extra sunny diamond';
+    recoveredMnemonic = await recoverMnemonicFromPhrase(phrase: recoveryPhrase);
+    final recoveredMnemonicLightningSeed =
+        await recoveredMnemonic.deriveLightningSeed(network: Network.Bitcoin);
+    recoveredMnemonicLightningSeedHex = recoveredMnemonicLightningSeed
+        .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+        .join();
   }
 
   @override
@@ -40,29 +56,32 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 const Text(
-                  'This calls a native function through FFI that is shipped as source in the package. '
-                  'The native code is built as part of the Flutter Runner build.',
+                  'This calls a native function through FFI that is build for the platform it is running on.',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
                 spacerSmall,
                 Text(
-                  'sum(1, 2) = $sumResult',
+                  'new mnemonic = $newMnemonic',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
                 spacerSmall,
-                FutureBuilder<int>(
-                  future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-                    final displayValue =
-                        (value.hasData) ? value.data : 'loading';
-                    return Text(
-                      'await sumAsync(3, 4) = $displayValue',
-                      style: textStyle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
+                Text(
+                  'new mnemonic lightning seed = $newMnemonicLightningSeedHex',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'recovered mnemonic = $recoveredMnemonic',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                ),
+                spacerSmall,
+                Text(
+                  'recovered mnemonic lightning seed = $recoveredMnemonicLightningSeedHex',
+                  style: textStyle,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),

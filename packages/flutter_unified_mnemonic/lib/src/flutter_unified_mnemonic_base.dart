@@ -11,7 +11,7 @@ final UnifiedMnemonic _bindings = createLib();
 /// They will block the Dart execution while running the native function, so
 /// only do this for native functions which are guaranteed to be short-lived.
 
-Future<Mnemonic> newMnemonic({
+Future<Mnemonic> generateNewMnemonic({
   required Language language,
   required WordCount wordCount,
 }) =>
