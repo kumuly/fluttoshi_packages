@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
   spec.version       = '0.0.1'
   spec.license       = { :file => '../LICENSE' }
   spec.homepage      = 'https://github.com/kumuly/fluttoshi_packages'
-  spec.authors       = { 'Your Name' => 'your-email@example.com' }
+  spec.authors       = { 'kumulynja' => 'b@kumuly.dev' }
   spec.summary       = 'iOS/macOS Flutter bindings for unified_mnemonic'
 
   spec.source              = { :path => '.' }
@@ -33,5 +33,5 @@ Pod::Spec.new do |spec|
   spec.vendored_frameworks = "Frameworks/#{framework_name}"
 
   spec.ios.deployment_target = '11.0'
-  spec.osx.deployment_target = '10.11'
+  spec.osx.deployment_target = '10.14'
 end
