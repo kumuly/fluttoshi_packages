@@ -76,6 +76,7 @@ class _MyAppState extends State<MyApp> {
                         'new mnemonic = ${newMnemonic.phrase}',
                         style: textStyle,
                         textAlign: TextAlign.center,
+                        key: const Key('generate_mnemonic'),
                       ),
                       spacerSmall,
                       Text(
