@@ -1,6 +1,7 @@
 import 'dart:async';
+
+import 'package:flutter_unified_mnemonic/src/ffi.dart';
 import 'package:unified_mnemonic/unified_mnemonic.dart';
-import 'ffi.dart';
 
 /// The bindings to the native functions in the library.
 final UnifiedMnemonic _bindings = createLib();
@@ -11,6 +12,7 @@ final UnifiedMnemonic _bindings = createLib();
 /// They will block the Dart execution while running the native function, so
 /// only do this for native functions which are guaranteed to be short-lived.
 
+/// Function that generates a new mnemonic.
 Future<Mnemonic> generateNewMnemonic({
   required Language language,
   required WordCount wordCount,
@@ -20,13 +22,15 @@ Future<Mnemonic> generateNewMnemonic({
       wordCount: wordCount,
     );
 
+/// Function that recovers a mnemonic from a phrase.
 Future<Mnemonic> recoverMnemonicFromPhrase({required String phrase}) =>
     _bindings.fromPhraseStaticMethodMnemonic(phrase: phrase);
 
 /// A longer lived native function, which occupies the thread calling it.
 ///
 /// Do not call these kind of native functions in the main isolate. They will
-/// block Dart execution. This will cause dropped frames in Flutter applications.
+/// block Dart execution. This will cause dropped frames in Flutter
+/// applications.
 /// Instead, call these native functions on a separate isolate.
 ///
 /// Modify this to suit your own use case. Example use cases:

@@ -11,10 +11,13 @@ void main() async {
     wordCount: WordCount.Words12,
   );
 
-  print('Mnemonic phrase: ${mnemonic.phrase}');
+  assert(
+    mnemonic.phrase.split(' ').length == 12,
+    'Phrase should have 12 words',
+  );
 
-  const recoveryPhrase =
-      'empty want equip quick that stuff motion floor oblige prize tower pigeon';
+  const recoveryPhrase = 'goat magnet speed sweet release pill '
+      'tiny decline talent extra sunny diamond';
   final recoverdMnemonic = await Mnemonic.fromPhrase(
     bridge: unifiedMnemonic,
     phrase: recoveryPhrase,
@@ -22,12 +25,19 @@ void main() async {
 
   final lightningSeed =
       await recoverdMnemonic.deriveLightningSeed(network: Network.Bitcoin);
+  assert(
+    lightningSeed.length == 32,
+    'Lightning seed should be 32 bytes',
+  );
 
-  // Todo: create a utility function in the package to convert the seed to hex.
   final lightningSeedHex = lightningSeed
       .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
       .join();
-  print('Seed for Lightning node: $lightningSeedHex');
+  assert(
+    lightningSeedHex ==
+        '426540629d356f207fd792c0215e787ded943a1c405a4353f7174926bb6fe129',
+    'LightningSeedHex should be the same as the one derived from the mnemonic',
+  );
 }
 
 DynamicLibrary getLibrary() {

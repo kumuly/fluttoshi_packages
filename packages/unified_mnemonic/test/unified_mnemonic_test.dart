@@ -1,9 +1,8 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:unified_mnemonic/src/bridge_generated.dart';
-import 'package:unified_mnemonic/unified_mnemonic.dart';
 import 'package:test/test.dart';
+import 'package:unified_mnemonic/unified_mnemonic.dart';
 
 void main() {
   final unifiedMnemonic = createWrapper(useLibrary());
@@ -146,8 +145,8 @@ void main() {
 
     test('should be consistent with BIP32 and BIP39 on Bitcoin Network',
         () async {
-      const mnemonicPhrase =
-          'goat magnet speed sweet release pill tiny decline talent extra sunny diamond';
+      const mnemonicPhrase = 'goat magnet speed sweet release pill '
+          'tiny decline talent extra sunny diamond';
       final mnemonic = await Mnemonic.fromPhrase(
         bridge: unifiedMnemonic,
         phrase: mnemonicPhrase,
@@ -158,8 +157,10 @@ void main() {
       final lightningSeedHex = lightningSeed
           .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
           .join();
-      expect(lightningSeedHex,
-          '426540629d356f207fd792c0215e787ded943a1c405a4353f7174926bb6fe129');
+      expect(
+        lightningSeedHex,
+        '426540629d356f207fd792c0215e787ded943a1c405a4353f7174926bb6fe129',
+      );
     });
   });
 }
