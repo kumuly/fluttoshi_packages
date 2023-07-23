@@ -1,0 +1,23 @@
+version: 2
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: pub
+    directory: "/packages/unified_mnemonic"
+    schedule:
+      interval: weekly
+  - package-ecosystem: pub
+    directory: "/packages/unified_mnemonic/example"
+    schedule:
+      interval: weekly
+  - package-ecosystem: pub
+    directory: "/packages/flutter_unified_mnemonic"
+    schedule:
+      interval: weekly
+  - package-ecosystem: pub
+    directory: "/packages/flutter_unified_mnemonic/example"
+    schedule:
+      interval: weekly
+  - package-ecosystem: cargo
+    directory: "/packages/unified_mnemonic/native"
+    schedule:
+      interval: weekly

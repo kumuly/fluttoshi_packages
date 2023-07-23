@@ -1,5 +1,5 @@
 name: fluttoshi_packages
-repository: https://www.github.com/kumuly/fluttoshi_packages
+repository: https://github.com/kumuly/fluttoshi_packages
 
 packages:
   - packages/**
@@ -10,7 +10,7 @@ scripts:
     description: Analyze a specific package in this project.
 
   check-format:
-    exec: dart format --set-exit-if-changed .
+    exec: find . -name "*.dart" ! -path "*bridge_generated.*dart" -exec dart format --set-exit-if-changed {} \;
     description: Check the format of a specific package in this project.
 
   format:
@@ -37,12 +37,35 @@ scripts:
     run: bash scripts/build-other.sh
     description: Build the .tar.gz for all other platforms.
 
-  test:
-    run: melos run test:selective_unit_test --no-select
-    description: Run all tests in this project.
+  copy:
+    run: melos run copy:apple && melos run copy:android && melos run copy:other
+    description: Copy all native libraries to the platform specific folders of the Flutter projects.
 
-  test:selective_unit_test:
-    run: melos exec --dir-exists="test" --fail-fast -- flutter test --no-pub --coverage
+  copy:apple:
+    run: bash scripts/copy-apple.sh
+    description: Copy the XCFramework's to the ios and macos folders of the Flutter projects.
+
+  copy:android:
+    run: bash scripts/copy-android.sh
+    description: Copy the .tar.gz's to the android folder of the Flutter projects.
+
+  copy:other:
+    run: bash scripts/copy-other.sh
+    description: Copy the .tar.gz's to the linux and windows folder of the Flutter projects.
+
+  test:
+    run: melos run test:dart --no-select && melos run test:flutter --no-select
+    description: Run all Dart & Flutter tests in this project.
+
+  test:dart:
+    run: melos exec -c 1 --fail-fast -- "dart test test"
+    description: Run Dart tests for a specific package in this project.
+    packageFilters:
+      flutter: false
+      dirExists: test
+
+  test:flutter:
+    run: melos exec -c 1 --fail-fast -- "flutter test test"
     description: Run Flutter tests for a specific package in this project.
     packageFilters:
       flutter: true
