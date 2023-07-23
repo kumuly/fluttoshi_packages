@@ -1,7 +1,13 @@
 name: unified_mnemonic
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: >
+  A Dart library to generate and restore mnemonics and derive other keys and seeds from them.
+  This makes it possible to have a unified wallet, which means having just one mnemonic for different wallets. 
+  For example, have a Bitcoin on-chain wallet, a Bitcoin on-chain wallet with passphrase and a Lightning node wallet, 
+  all derived from one 'unified' mnemonic.
+version: 0.0.1
+homepage: https://kumuly.dev
+repository: https://github.com/kumuly/fluttoshi_packages
+issue_tracker: https://github.com/kumuly/fluttoshi_packages/issues
 
 environment:
   sdk: ^3.0.6

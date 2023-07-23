@@ -2,7 +2,7 @@ name: fluttoshi_packages
 repository: https://github.com/kumuly/fluttoshi_packages
 
 packages:
-  - packages/*
+  - packages/**
 
 scripts:
   analyze:
