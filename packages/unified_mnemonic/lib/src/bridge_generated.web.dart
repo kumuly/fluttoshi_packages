@@ -10,8 +10,10 @@ import 'package:uuid/uuid.dart';
 import 'bridge_generated.dart';
 export 'bridge_generated.dart';
 
-class UnifiedMnemonicPlatform extends FlutterRustBridgeBase<UnifiedMnemonicWire> with FlutterRustBridgeSetupMixin {
-  UnifiedMnemonicPlatform(FutureOr<WasmModule> dylib) : super(UnifiedMnemonicWire(dylib)) {
+class UnifiedMnemonicPlatform extends FlutterRustBridgeBase<UnifiedMnemonicWire>
+    with FlutterRustBridgeSetupMixin {
+  UnifiedMnemonicPlatform(FutureOr<WasmModule> dylib)
+      : super(UnifiedMnemonicWire(dylib)) {
     setupMixinConstructor();
   }
   Future<void> setup() => inner.init;
@@ -35,10 +37,7 @@ class UnifiedMnemonicPlatform extends FlutterRustBridgeBase<UnifiedMnemonicWire>
 
   @protected
   List<dynamic> api2wire_mnemonic(Mnemonic raw) {
-    return [
-      api2wire_String(raw.phrase),
-      api2wire_language(raw.language)
-    ];
+    return [api2wire_String(raw.phrase), api2wire_language(raw.language)];
   }
 
   @protected
@@ -64,21 +63,36 @@ external UnifiedMnemonicWasmModule get wasmModule;
 class UnifiedMnemonicWasmModule implements WasmModule {
   external Object /* Promise */ call([String? moduleName]);
   external UnifiedMnemonicWasmModule bind(dynamic thisArg, String moduleName);
-  external dynamic /* void */ wire_new__static_method__Mnemonic(NativePortType port_, int language, int word_count);
+  external dynamic /* void */ wire_new__static_method__Mnemonic(
+      NativePortType port_, int language, int word_count);
 
-  external dynamic /* void */ wire_from_phrase__static_method__Mnemonic(NativePortType port_, String phrase);
+  external dynamic /* void */ wire_from_phrase__static_method__Mnemonic(
+      NativePortType port_, String phrase);
 
-  external dynamic /* void */ wire_derive_lightning_seed__method__Mnemonic(NativePortType port_, List<dynamic> that, int network, int? hardened_child_index);
+  external dynamic /* void */ wire_derive_lightning_seed__method__Mnemonic(
+      NativePortType port_,
+      List<dynamic> that,
+      int network,
+      int? hardened_child_index);
 }
 
 // Section: WASM wire connector
 
-class UnifiedMnemonicWire extends FlutterRustBridgeWasmWireBase<UnifiedMnemonicWasmModule> {
-  UnifiedMnemonicWire(FutureOr<WasmModule> module) : super(WasmModule.cast<UnifiedMnemonicWasmModule>(module));
+class UnifiedMnemonicWire
+    extends FlutterRustBridgeWasmWireBase<UnifiedMnemonicWasmModule> {
+  UnifiedMnemonicWire(FutureOr<WasmModule> module)
+      : super(WasmModule.cast<UnifiedMnemonicWasmModule>(module));
 
-  void wire_new__static_method__Mnemonic(NativePortType port_, int language, int word_count) => wasmModule.wire_new__static_method__Mnemonic(port_, language, word_count);
+  void wire_new__static_method__Mnemonic(
+          NativePortType port_, int language, int word_count) =>
+      wasmModule.wire_new__static_method__Mnemonic(port_, language, word_count);
 
-  void wire_from_phrase__static_method__Mnemonic(NativePortType port_, String phrase) => wasmModule.wire_from_phrase__static_method__Mnemonic(port_, phrase);
+  void wire_from_phrase__static_method__Mnemonic(
+          NativePortType port_, String phrase) =>
+      wasmModule.wire_from_phrase__static_method__Mnemonic(port_, phrase);
 
-  void wire_derive_lightning_seed__method__Mnemonic(NativePortType port_, List<dynamic> that, int network, int? hardened_child_index) => wasmModule.wire_derive_lightning_seed__method__Mnemonic(port_, that, network, hardened_child_index);
+  void wire_derive_lightning_seed__method__Mnemonic(NativePortType port_,
+          List<dynamic> that, int network, int? hardened_child_index) =>
+      wasmModule.wire_derive_lightning_seed__method__Mnemonic(
+          port_, that, network, hardened_child_index);
 }

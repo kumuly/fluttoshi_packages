@@ -15,20 +15,28 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:uuid/uuid.dart';
-import 'bridge_generated.io.dart' if (dart.library.html) 'bridge_generated.web.dart';
+import 'bridge_generated.io.dart'
+    if (dart.library.html) 'bridge_generated.web.dart';
 
 abstract class UnifiedMnemonic {
-  Future<Mnemonic> newStaticMethodMnemonic({required Language language, required WordCount wordCount, dynamic hint});
+  Future<Mnemonic> newStaticMethodMnemonic(
+      {required Language language, required WordCount wordCount, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kNewStaticMethodMnemonicConstMeta;
 
-  Future<Mnemonic> fromPhraseStaticMethodMnemonic({required String phrase, dynamic hint});
+  Future<Mnemonic> fromPhraseStaticMethodMnemonic(
+      {required String phrase, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kFromPhraseStaticMethodMnemonicConstMeta;
 
-  Future<U8Array32> deriveLightningSeedMethodMnemonic({required Mnemonic that, required Network network, int? hardenedChildIndex, dynamic hint});
+  Future<U8Array32> deriveLightningSeedMethodMnemonic(
+      {required Mnemonic that,
+      required Network network,
+      int? hardenedChildIndex,
+      dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kDeriveLightningSeedMethodMnemonicConstMeta;
+  FlutterRustBridgeTaskConstMeta
+      get kDeriveLightningSeedMethodMnemonicConstMeta;
 }
 
 /// Language to be used for the mnemonic phrase.
@@ -53,11 +61,23 @@ class Mnemonic {
     required this.language,
   });
 
-  static Future<Mnemonic> newMnemonic({required UnifiedMnemonic bridge, required Language language, required WordCount wordCount, dynamic hint}) => bridge.newStaticMethodMnemonic(language: language, wordCount: wordCount, hint: hint);
+  static Future<Mnemonic> newMnemonic(
+          {required UnifiedMnemonic bridge,
+          required Language language,
+          required WordCount wordCount,
+          dynamic hint}) =>
+      bridge.newStaticMethodMnemonic(
+          language: language, wordCount: wordCount, hint: hint);
 
-  static Future<Mnemonic> fromPhrase({required UnifiedMnemonic bridge, required String phrase, dynamic hint}) => bridge.fromPhraseStaticMethodMnemonic(phrase: phrase, hint: hint);
+  static Future<Mnemonic> fromPhrase(
+          {required UnifiedMnemonic bridge,
+          required String phrase,
+          dynamic hint}) =>
+      bridge.fromPhraseStaticMethodMnemonic(phrase: phrase, hint: hint);
 
-  Future<U8Array32> deriveLightningSeed({required Network network, int? hardenedChildIndex, dynamic hint}) => bridge.deriveLightningSeedMethodMnemonic(
+  Future<U8Array32> deriveLightningSeed(
+          {required Network network, int? hardenedChildIndex, dynamic hint}) =>
+      bridge.deriveLightningSeedMethodMnemonic(
         that: this,
         network: network,
         hardenedChildIndex: hardenedChildIndex,
@@ -100,79 +120,79 @@ enum WordCount {
 
 class UnifiedMnemonicImpl implements UnifiedMnemonic {
   final UnifiedMnemonicPlatform _platform;
-  factory UnifiedMnemonicImpl(ExternalLibrary dylib) => UnifiedMnemonicImpl.raw(UnifiedMnemonicPlatform(dylib));
+  factory UnifiedMnemonicImpl(ExternalLibrary dylib) =>
+      UnifiedMnemonicImpl.raw(UnifiedMnemonicPlatform(dylib));
 
   /// Only valid on web/WASM platforms.
-  factory UnifiedMnemonicImpl.wasm(FutureOr<WasmModule> module) => UnifiedMnemonicImpl(module as ExternalLibrary);
+  factory UnifiedMnemonicImpl.wasm(FutureOr<WasmModule> module) =>
+      UnifiedMnemonicImpl(module as ExternalLibrary);
   UnifiedMnemonicImpl.raw(this._platform);
-  Future<Mnemonic> newStaticMethodMnemonic({required Language language, required WordCount wordCount, dynamic hint}) {
+  Future<Mnemonic> newStaticMethodMnemonic(
+      {required Language language,
+      required WordCount wordCount,
+      dynamic hint}) {
     var arg0 = api2wire_language(language);
     var arg1 = api2wire_word_count(wordCount);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_new__static_method__Mnemonic(port_, arg0, arg1),
+      callFfi: (port_) =>
+          _platform.inner.wire_new__static_method__Mnemonic(port_, arg0, arg1),
       parseSuccessData: (d) => _wire2api_mnemonic(d),
       constMeta: kNewStaticMethodMnemonicConstMeta,
-      argValues: [
-        language,
-        wordCount
-      ],
+      argValues: [language, wordCount],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kNewStaticMethodMnemonicConstMeta => const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kNewStaticMethodMnemonicConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
         debugName: "new__static_method__Mnemonic",
-        argNames: [
-          "language",
-          "wordCount"
-        ],
+        argNames: ["language", "wordCount"],
       );
 
-  Future<Mnemonic> fromPhraseStaticMethodMnemonic({required String phrase, dynamic hint}) {
+  Future<Mnemonic> fromPhraseStaticMethodMnemonic(
+      {required String phrase, dynamic hint}) {
     var arg0 = _platform.api2wire_String(phrase);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_from_phrase__static_method__Mnemonic(port_, arg0),
+      callFfi: (port_) => _platform.inner
+          .wire_from_phrase__static_method__Mnemonic(port_, arg0),
       parseSuccessData: (d) => _wire2api_mnemonic(d),
       constMeta: kFromPhraseStaticMethodMnemonicConstMeta,
-      argValues: [
-        phrase
-      ],
+      argValues: [phrase],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kFromPhraseStaticMethodMnemonicConstMeta => const FlutterRustBridgeTaskConstMeta(
+  FlutterRustBridgeTaskConstMeta get kFromPhraseStaticMethodMnemonicConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
         debugName: "from_phrase__static_method__Mnemonic",
-        argNames: [
-          "phrase"
-        ],
+        argNames: ["phrase"],
       );
 
-  Future<U8Array32> deriveLightningSeedMethodMnemonic({required Mnemonic that, required Network network, int? hardenedChildIndex, dynamic hint}) {
+  Future<U8Array32> deriveLightningSeedMethodMnemonic(
+      {required Mnemonic that,
+      required Network network,
+      int? hardenedChildIndex,
+      dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_mnemonic(that);
     var arg1 = api2wire_network(network);
     var arg2 = _platform.api2wire_opt_box_autoadd_u32(hardenedChildIndex);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_derive_lightning_seed__method__Mnemonic(port_, arg0, arg1, arg2),
+      callFfi: (port_) => _platform.inner
+          .wire_derive_lightning_seed__method__Mnemonic(
+              port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_u8_array_32,
       constMeta: kDeriveLightningSeedMethodMnemonicConstMeta,
-      argValues: [
-        that,
-        network,
-        hardenedChildIndex
-      ],
+      argValues: [that, network, hardenedChildIndex],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kDeriveLightningSeedMethodMnemonicConstMeta => const FlutterRustBridgeTaskConstMeta(
-        debugName: "derive_lightning_seed__method__Mnemonic",
-        argNames: [
-          "that",
-          "network",
-          "hardenedChildIndex"
-        ],
-      );
+  FlutterRustBridgeTaskConstMeta
+      get kDeriveLightningSeedMethodMnemonicConstMeta =>
+          const FlutterRustBridgeTaskConstMeta(
+            debugName: "derive_lightning_seed__method__Mnemonic",
+            argNames: ["that", "network", "hardenedChildIndex"],
+          );
 
   void dispose() {
     _platform.dispose();
@@ -193,7 +213,8 @@ class UnifiedMnemonicImpl implements UnifiedMnemonic {
 
   Mnemonic _wire2api_mnemonic(dynamic raw) {
     final arr = raw as List<dynamic>;
-    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return Mnemonic(
       bridge: this,
       phrase: _wire2api_String(arr[0]),
