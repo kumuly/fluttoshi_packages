@@ -12,4 +12,4 @@ Link to Issue (optional):
 
 - [ ] Code is tested
 - [ ] Code is documented
-- [ ] Pull Request title is in the format `feat: <title>`
+- [ ] Pull Request title is in the format `feat: <title>` (or `feat!: <title>` in case of breaking changes)
