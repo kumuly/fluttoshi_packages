@@ -10,7 +10,7 @@ scripts:
     description: Analyze a specific package in this project.
 
   check-format:
-    exec: dart format --set-exit-if-changed .
+    exec: find . -name "*.dart" ! -path "*bridge_generated.*dart" -exec dart format --set-exit-if-changed {} \;
     description: Check the format of a specific package in this project.
 
   format:
