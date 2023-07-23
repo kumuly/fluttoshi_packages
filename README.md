@@ -2,9 +2,10 @@
 
 # Fluttoshi packages
 
-We think that all apps that need any kind of global payment mechanism are the best of with Bitcoin on the Lightning Network. We envision a near future where all apps will have a lightweight, non-custodial Lightning wallet embedded, even if it is not necesarily a 'Bitcoin' app. We want to make it as easy as possible for this to happen. Therefore the packages in this project are designed to be as modular as possible, so that they can be used as building blocks in any Flutter app, regardless of the app's purpose. Also apps that do want to make more full-fledged Bitcoin and Lightning apps might find these packages useful.
+We think that all apps that need any kind of global payment mechanism are the best of with Bitcoin on the Lightning Network. We envision a near future where all apps will have a lightweight, non-custodial Lightning wallet embedded, even if they are not necesarily 'Bitcoin' or payment apps at their core.
+We want to make it as easy as possible for this to happen. Therefore the packages in this project are designed to be as modular as possible, so that they can be used as building blocks in any Flutter app, regardless of the app's purpose. Also apps that do want to make more full-fledged Bitcoin and Lightning apps might find these packages useful.
 We also believe that Flutter is the best framework to build cross-platform apps and that Rust is the best language to build the core functionality of these apps. Therefore we are building these packages in Rust and Flutter.
-We mainly use the [Lightning Development Kit](https://www.lightningdevkit.org) and the [Bitcoin Development Kit](https://www.bitcoindevkit.org) to have trusted, well-tested and well-maintained Rust libraries to build on.
+We mainly use the [Lightning Development Kit](https://www.lightningdevkit.org) and [Bitcoin Development Kit](https://www.bitcoindevkit.org) to have trusted, well-tested and well-maintained Rust libraries to build on.
 
 ## Packages
 
