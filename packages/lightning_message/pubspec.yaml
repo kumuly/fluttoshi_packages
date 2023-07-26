@@ -1,0 +1,23 @@
+name: lightning_message
+description: >
+  A Dart library to generate and validate lightning messages as unanimously implemented in the main node implementations and other applications with
+  zbase32(SigRec(SHA256(SHA256("Lightning Signed Message:" + msg)))) and zbase32 from https://philzimmermann.com/docs/human-oriented-base-32-encoding.txt and SigRec with first byte 31 + recovery id, followed by 64 byte sig,
+  as described on https://twitter.com/rusty_twit/status/1182102005914800128?s=20 by rusty.
+version: 0.0.1
+homepage: https://kumuly.dev
+repository: https://github.com/kumuly/fluttoshi_packages
+issue_tracker: https://github.com/kumuly/fluttoshi_packages/issues
+
+environment:
+  sdk: ^3.0.6
+
+# Add regular dependencies here.
+dependencies:
+  ffi: ^2.0.2
+  flutter_rust_bridge: ^1.79.0
+  # path: ^1.8.0
+
+dev_dependencies:
+  ffigen: ^8.0.2
+  lints: ^2.0.0
+  test: ^1.21.0

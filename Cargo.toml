@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "packages/unified_mnemonic/native",
+    "packages/lightning_message/native",
 ]
 
 [profile.release]

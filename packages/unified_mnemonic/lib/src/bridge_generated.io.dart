@@ -11,10 +11,8 @@ import 'bridge_generated.dart';
 export 'bridge_generated.dart';
 import 'dart:ffi' as ffi;
 
-class UnifiedMnemonicPlatform
-    extends FlutterRustBridgeBase<UnifiedMnemonicWire> {
-  UnifiedMnemonicPlatform(ffi.DynamicLibrary dylib)
-      : super(UnifiedMnemonicWire(dylib));
+class UnifiedMnemonicPlatform extends FlutterRustBridgeBase<UnifiedMnemonicWire> {
+  UnifiedMnemonicPlatform(ffi.DynamicLibrary dylib) : super(UnifiedMnemonicWire(dylib));
 
 // Section: api2wire
 
@@ -51,8 +49,7 @@ class UnifiedMnemonicPlatform
 
 // Section: api_fill_to_wire
 
-  void _api_fill_to_wire_box_autoadd_mnemonic(
-      Mnemonic apiObj, ffi.Pointer<wire_Mnemonic> wireObj) {
+  void _api_fill_to_wire_box_autoadd_mnemonic(Mnemonic apiObj, ffi.Pointer<wire_Mnemonic> wireObj) {
     _api_fill_to_wire_mnemonic(apiObj, wireObj.ref);
   }
 
@@ -75,18 +72,13 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
   late final dartApi = DartApiDl(init_frb_dart_api_dl);
 
   /// Holds the symbol lookup function.
-  final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
-  UnifiedMnemonicWire(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+  UnifiedMnemonicWire(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  UnifiedMnemonicWire.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+  UnifiedMnemonicWire.fromLookup(ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup) : _lookup = lookup;
 
   void store_dart_post_cobject(
     DartPostCObjectFnType ptr,
@@ -96,11 +88,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _store_dart_post_cobjectPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(DartPostCObjectFnType)>>(
-          'store_dart_post_cobject');
-  late final _store_dart_post_cobject = _store_dart_post_cobjectPtr
-      .asFunction<void Function(DartPostCObjectFnType)>();
+  late final _store_dart_post_cobjectPtr = _lookup<ffi.NativeFunction<ffi.Void Function(DartPostCObjectFnType)>>('store_dart_post_cobject');
+  late final _store_dart_post_cobject = _store_dart_post_cobjectPtr.asFunction<void Function(DartPostCObjectFnType)>();
 
   Object get_dart_object(
     int ptr,
@@ -110,11 +99,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _get_dart_objectPtr =
-      _lookup<ffi.NativeFunction<ffi.Handle Function(ffi.UintPtr)>>(
-          'get_dart_object');
-  late final _get_dart_object =
-      _get_dart_objectPtr.asFunction<Object Function(int)>();
+  late final _get_dart_objectPtr = _lookup<ffi.NativeFunction<ffi.Handle Function(ffi.UintPtr)>>('get_dart_object');
+  late final _get_dart_object = _get_dart_objectPtr.asFunction<Object Function(int)>();
 
   void drop_dart_object(
     int ptr,
@@ -124,11 +110,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _drop_dart_objectPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.UintPtr)>>(
-          'drop_dart_object');
-  late final _drop_dart_object =
-      _drop_dart_objectPtr.asFunction<void Function(int)>();
+  late final _drop_dart_objectPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.UintPtr)>>('drop_dart_object');
+  late final _drop_dart_object = _drop_dart_objectPtr.asFunction<void Function(int)>();
 
   int new_dart_opaque(
     Object handle,
@@ -138,11 +121,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _new_dart_opaquePtr =
-      _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.Handle)>>(
-          'new_dart_opaque');
-  late final _new_dart_opaque =
-      _new_dart_opaquePtr.asFunction<int Function(Object)>();
+  late final _new_dart_opaquePtr = _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.Handle)>>('new_dart_opaque');
+  late final _new_dart_opaque = _new_dart_opaquePtr.asFunction<int Function(Object)>();
 
   int init_frb_dart_api_dl(
     ffi.Pointer<ffi.Void> obj,
@@ -152,11 +132,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _init_frb_dart_api_dlPtr =
-      _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>(
-          'init_frb_dart_api_dl');
-  late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  late final _init_frb_dart_api_dlPtr = _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>('init_frb_dart_api_dl');
+  late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
   void wire_new__static_method__Mnemonic(
     int port_,
@@ -170,13 +147,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_new__static_method__MnemonicPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Int32,
-              ffi.Int32)>>('wire_new__static_method__Mnemonic');
-  late final _wire_new__static_method__Mnemonic =
-      _wire_new__static_method__MnemonicPtr
-          .asFunction<void Function(int, int, int)>();
+  late final _wire_new__static_method__MnemonicPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Int32, ffi.Int32)>>('wire_new__static_method__Mnemonic');
+  late final _wire_new__static_method__Mnemonic = _wire_new__static_method__MnemonicPtr.asFunction<void Function(int, int, int)>();
 
   void wire_from_phrase__static_method__Mnemonic(
     int port_,
@@ -188,13 +160,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_from_phrase__static_method__MnemonicPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>(
-      'wire_from_phrase__static_method__Mnemonic');
-  late final _wire_from_phrase__static_method__Mnemonic =
-      _wire_from_phrase__static_method__MnemonicPtr
-          .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+  late final _wire_from_phrase__static_method__MnemonicPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_from_phrase__static_method__Mnemonic');
+  late final _wire_from_phrase__static_method__Mnemonic = _wire_from_phrase__static_method__MnemonicPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_derive_lightning_seed__method__Mnemonic(
     int port_,
@@ -210,25 +177,15 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _wire_derive_lightning_seed__method__MnemonicPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Mnemonic>,
-                  ffi.Int32, ffi.Pointer<ffi.Uint32>)>>(
-      'wire_derive_lightning_seed__method__Mnemonic');
-  late final _wire_derive_lightning_seed__method__Mnemonic =
-      _wire_derive_lightning_seed__method__MnemonicPtr.asFunction<
-          void Function(
-              int, ffi.Pointer<wire_Mnemonic>, int, ffi.Pointer<ffi.Uint32>)>();
+  late final _wire_derive_lightning_seed__method__MnemonicPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Mnemonic>, ffi.Int32, ffi.Pointer<ffi.Uint32>)>>('wire_derive_lightning_seed__method__Mnemonic');
+  late final _wire_derive_lightning_seed__method__Mnemonic = _wire_derive_lightning_seed__method__MnemonicPtr.asFunction<void Function(int, ffi.Pointer<wire_Mnemonic>, int, ffi.Pointer<ffi.Uint32>)>();
 
   ffi.Pointer<wire_Mnemonic> new_box_autoadd_mnemonic_0() {
     return _new_box_autoadd_mnemonic_0();
   }
 
-  late final _new_box_autoadd_mnemonic_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Mnemonic> Function()>>(
-          'new_box_autoadd_mnemonic_0');
-  late final _new_box_autoadd_mnemonic_0 = _new_box_autoadd_mnemonic_0Ptr
-      .asFunction<ffi.Pointer<wire_Mnemonic> Function()>();
+  late final _new_box_autoadd_mnemonic_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<wire_Mnemonic> Function()>>('new_box_autoadd_mnemonic_0');
+  late final _new_box_autoadd_mnemonic_0 = _new_box_autoadd_mnemonic_0Ptr.asFunction<ffi.Pointer<wire_Mnemonic> Function()>();
 
   ffi.Pointer<ffi.Uint32> new_box_autoadd_u32_0(
     int value,
@@ -238,11 +195,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _new_box_autoadd_u32_0Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint32> Function(ffi.Uint32)>>(
-          'new_box_autoadd_u32_0');
-  late final _new_box_autoadd_u32_0 = _new_box_autoadd_u32_0Ptr
-      .asFunction<ffi.Pointer<ffi.Uint32> Function(int)>();
+  late final _new_box_autoadd_u32_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Uint32> Function(ffi.Uint32)>>('new_box_autoadd_u32_0');
+  late final _new_box_autoadd_u32_0 = _new_box_autoadd_u32_0Ptr.asFunction<ffi.Pointer<ffi.Uint32> Function(int)>();
 
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,
@@ -252,12 +206,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _new_uint_8_list_0Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<wire_uint_8_list> Function(
-              ffi.Int32)>>('new_uint_8_list_0');
-  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr
-      .asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
+  late final _new_uint_8_list_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>('new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr.asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -267,11 +217,8 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
     );
   }
 
-  late final _free_WireSyncReturnPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(WireSyncReturn)>>(
-          'free_WireSyncReturn');
-  late final _free_WireSyncReturn =
-      _free_WireSyncReturnPtr.asFunction<void Function(WireSyncReturn)>();
+  late final _free_WireSyncReturnPtr = _lookup<ffi.NativeFunction<ffi.Void Function(WireSyncReturn)>>('free_WireSyncReturn');
+  late final _free_WireSyncReturn = _free_WireSyncReturnPtr.asFunction<void Function(WireSyncReturn)>();
 }
 
 final class _Dart_Handle extends ffi.Opaque {}
@@ -290,7 +237,5 @@ final class wire_Mnemonic extends ffi.Struct {
   external int language;
 }
 
-typedef DartPostCObjectFnType = ffi.Pointer<
-    ffi.NativeFunction<
-        ffi.Bool Function(DartPort port_id, ffi.Pointer<ffi.Void> message)>>;
+typedef DartPostCObjectFnType = ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(DartPort port_id, ffi.Pointer<ffi.Void> message)>>;
 typedef DartPort = ffi.Int64;
