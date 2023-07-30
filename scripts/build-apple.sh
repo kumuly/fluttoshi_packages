@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for LIBRARY_NAME in unified_mnemonic
+for LIBRARY_NAME in unified_mnemonic lightning_message
 do
     # Setup
     BUILD_DIR=platform-build
