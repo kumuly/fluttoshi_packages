@@ -26,6 +26,10 @@ abstract class UnifiedMnemonic {
 
   FlutterRustBridgeTaskConstMeta get kFromPhraseStaticMethodMnemonicConstMeta;
 
+  Future<U8Array64> deriveSeedMethodMnemonic({required Mnemonic that, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDeriveSeedMethodMnemonicConstMeta;
+
   Future<U8Array32> deriveLightningSeedMethodMnemonic({required Mnemonic that, required Network network, int? hardenedChildIndex, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDeriveLightningSeedMethodMnemonicConstMeta;
@@ -57,6 +61,10 @@ class Mnemonic {
 
   static Future<Mnemonic> fromPhrase({required UnifiedMnemonic bridge, required String phrase, dynamic hint}) => bridge.fromPhraseStaticMethodMnemonic(phrase: phrase, hint: hint);
 
+  Future<U8Array64> deriveSeed({dynamic hint}) => bridge.deriveSeedMethodMnemonic(
+        that: this,
+      );
+
   Future<U8Array32> deriveLightningSeed({required Network network, int? hardenedChildIndex, dynamic hint}) => bridge.deriveLightningSeedMethodMnemonic(
         that: this,
         network: network,
@@ -78,6 +86,15 @@ class U8Array32 extends NonGrowableListView<int> {
         super(inner);
   U8Array32.unchecked(Uint8List inner) : super(inner);
   U8Array32.init() : super(Uint8List(arraySize));
+}
+
+class U8Array64 extends NonGrowableListView<int> {
+  static const arraySize = 64;
+  U8Array64(Uint8List inner)
+      : assert(inner.length == arraySize),
+        super(inner);
+  U8Array64.unchecked(Uint8List inner) : super(inner);
+  U8Array64.init() : super(Uint8List(arraySize));
 }
 
 /// Type describing entropy length (aka word count) in the mnemonic
@@ -148,6 +165,26 @@ class UnifiedMnemonicImpl implements UnifiedMnemonic {
         ],
       );
 
+  Future<U8Array64> deriveSeedMethodMnemonic({required Mnemonic that, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_mnemonic(that);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_derive_seed__method__Mnemonic(port_, arg0),
+      parseSuccessData: _wire2api_u8_array_64,
+      constMeta: kDeriveSeedMethodMnemonicConstMeta,
+      argValues: [
+        that
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDeriveSeedMethodMnemonicConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "derive_seed__method__Mnemonic",
+        argNames: [
+          "that"
+        ],
+      );
+
   Future<U8Array32> deriveLightningSeedMethodMnemonic({required Mnemonic that, required Network network, int? hardenedChildIndex, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_mnemonic(that);
     var arg1 = api2wire_network(network);
@@ -207,6 +244,10 @@ class UnifiedMnemonicImpl implements UnifiedMnemonic {
 
   U8Array32 _wire2api_u8_array_32(dynamic raw) {
     return U8Array32(_wire2api_uint_8_list(raw));
+  }
+
+  U8Array64 _wire2api_u8_array_64(dynamic raw) {
+    return U8Array64(_wire2api_uint_8_list(raw));
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {

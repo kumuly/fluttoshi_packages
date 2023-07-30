@@ -16,9 +16,50 @@ class LightningMessagePlatform extends FlutterRustBridgeBase<LightningMessageWir
 
 // Section: api2wire
 
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_String(String raw) {
+    return api2wire_uint_8_list(utf8.encoder.convert(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_Signer> api2wire_box_autoadd_signer(Signer raw) {
+    final ptr = inner.new_box_autoadd_signer_0();
+    _api_fill_to_wire_signer(raw, ptr.ref);
+    return ptr;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_u8_array_32(U8Array32 raw) {
+    final ans = inner.new_uint_8_list_0(32);
+    ans.ref.ptr.asTypedList(32).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_u8_array_64(U8Array64 raw) {
+    final ans = inner.new_uint_8_list_0(64);
+    ans.ref.ptr.asTypedList(64).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_uint_8_list(Uint8List raw) {
+    final ans = inner.new_uint_8_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
 // Section: finalizer
 
 // Section: api_fill_to_wire
+
+  void _api_fill_to_wire_box_autoadd_signer(Signer apiObj, ffi.Pointer<wire_Signer> wireObj) {
+    _api_fill_to_wire_signer(apiObj, wireObj.ref);
+  }
+
+  void _api_fill_to_wire_signer(Signer apiObj, wire_Signer wireObj) {
+    wireObj.secret_key_bytes = api2wire_u8_array_32(apiObj.secretKeyBytes);
+    wireObj.node_id = api2wire_String(apiObj.nodeId);
+  }
 }
 
 // ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_positional_boolean_parameters, annotate_overrides, constant_identifier_names
@@ -97,6 +138,97 @@ class LightningMessageWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dlPtr = _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>('init_frb_dart_api_dl');
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
+  void wire_sign(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> message,
+    ffi.Pointer<wire_Signer> signer,
+  ) {
+    return _wire_sign(
+      port_,
+      message,
+      signer,
+    );
+  }
+
+  late final _wire_signPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_Signer>)>>('wire_sign');
+  late final _wire_sign = _wire_signPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_Signer>)>();
+
+  void wire_verify(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> message,
+    ffi.Pointer<wire_uint_8_list> signature,
+    ffi.Pointer<wire_uint_8_list> public_key,
+  ) {
+    return _wire_verify(
+      port_,
+      message,
+      signature,
+      public_key,
+    );
+  }
+
+  late final _wire_verifyPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>>('wire_verify');
+  late final _wire_verify = _wire_verifyPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_recover_node_id(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> message,
+    ffi.Pointer<wire_uint_8_list> signature,
+  ) {
+    return _wire_recover_node_id(
+      port_,
+      message,
+      signature,
+    );
+  }
+
+  late final _wire_recover_node_idPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>>('wire_recover_node_id');
+  late final _wire_recover_node_id = _wire_recover_node_idPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_from_seed__static_method__Signer(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> seed,
+  ) {
+    return _wire_from_seed__static_method__Signer(
+      port_,
+      seed,
+    );
+  }
+
+  late final _wire_from_seed__static_method__SignerPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_from_seed__static_method__Signer');
+  late final _wire_from_seed__static_method__Signer = _wire_from_seed__static_method__SignerPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_from_lightning_seed__static_method__Signer(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> seed,
+  ) {
+    return _wire_from_lightning_seed__static_method__Signer(
+      port_,
+      seed,
+    );
+  }
+
+  late final _wire_from_lightning_seed__static_method__SignerPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_from_lightning_seed__static_method__Signer');
+  late final _wire_from_lightning_seed__static_method__Signer = _wire_from_lightning_seed__static_method__SignerPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  ffi.Pointer<wire_Signer> new_box_autoadd_signer_0() {
+    return _new_box_autoadd_signer_0();
+  }
+
+  late final _new_box_autoadd_signer_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<wire_Signer> Function()>>('new_box_autoadd_signer_0');
+  late final _new_box_autoadd_signer_0 = _new_box_autoadd_signer_0Ptr.asFunction<ffi.Pointer<wire_Signer> Function()>();
+
+  ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
+    int len,
+  ) {
+    return _new_uint_8_list_0(
+      len,
+    );
+  }
+
+  late final _new_uint_8_list_0Ptr = _lookup<ffi.NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>('new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr.asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
+
   void free_WireSyncReturn(
     WireSyncReturn ptr,
   ) {
@@ -110,6 +242,19 @@ class LightningMessageWire implements FlutterRustBridgeWireBase {
 }
 
 final class _Dart_Handle extends ffi.Opaque {}
+
+final class wire_uint_8_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+final class wire_Signer extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> secret_key_bytes;
+
+  external ffi.Pointer<wire_uint_8_list> node_id;
+}
 
 typedef DartPostCObjectFnType = ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(DartPort port_id, ffi.Pointer<ffi.Void> message)>>;
 typedef DartPort = ffi.Int64;

@@ -18,6 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Mnemonic newMnemonic;
+  late String newMnemonicSeedHex;
   late Mnemonic recoveredMnemonic;
   late String newMnemonicLightningSeedHex;
   late String recoveredMnemonicLightningSeedHex;
@@ -33,6 +34,10 @@ class _MyAppState extends State<MyApp> {
       language: Language.Spanish,
       wordCount: WordCount.Words24,
     );
+    final newMnemonicSeed = await newMnemonic.deriveSeed();
+    newMnemonicSeedHex = newMnemonicSeed
+        .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+        .join();
     final newMnemonicLightningSeed =
         await newMnemonic.deriveLightningSeed(network: Network.Bitcoin);
     newMnemonicLightningSeedHex = newMnemonicLightningSeed
@@ -83,6 +88,12 @@ class _MyAppState extends State<MyApp> {
                         style: textStyle,
                         textAlign: TextAlign.center,
                         key: const Key('generate_mnemonic'),
+                      ),
+                      spacerSmall,
+                      Text(
+                        'new mnemonic seed = $newMnemonicSeedHex',
+                        style: textStyle,
+                        textAlign: TextAlign.center,
                       ),
                       spacerSmall,
                       Text(

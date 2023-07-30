@@ -18,6 +18,38 @@ class LightningMessagePlatform extends FlutterRustBridgeBase<LightningMessageWir
 
 // Section: api2wire
 
+  @protected
+  String api2wire_String(String raw) {
+    return raw;
+  }
+
+  @protected
+  List<dynamic> api2wire_box_autoadd_signer(Signer raw) {
+    return api2wire_signer(raw);
+  }
+
+  @protected
+  List<dynamic> api2wire_signer(Signer raw) {
+    return [
+      api2wire_u8_array_32(raw.secretKeyBytes),
+      api2wire_String(raw.nodeId)
+    ];
+  }
+
+  @protected
+  Uint8List api2wire_u8_array_32(U8Array32 raw) {
+    return Uint8List.fromList(raw);
+  }
+
+  @protected
+  Uint8List api2wire_u8_array_64(U8Array64 raw) {
+    return Uint8List.fromList(raw);
+  }
+
+  @protected
+  Uint8List api2wire_uint_8_list(Uint8List raw) {
+    return raw;
+  }
 // Section: finalizer
 }
 
@@ -31,10 +63,29 @@ external LightningMessageWasmModule get wasmModule;
 class LightningMessageWasmModule implements WasmModule {
   external Object /* Promise */ call([String? moduleName]);
   external LightningMessageWasmModule bind(dynamic thisArg, String moduleName);
+  external dynamic /* void */ wire_sign(NativePortType port_, String message, List<dynamic> signer);
+
+  external dynamic /* void */ wire_verify(NativePortType port_, String message, String signature, String public_key);
+
+  external dynamic /* void */ wire_recover_node_id(NativePortType port_, String message, String signature);
+
+  external dynamic /* void */ wire_from_seed__static_method__Signer(NativePortType port_, Uint8List seed);
+
+  external dynamic /* void */ wire_from_lightning_seed__static_method__Signer(NativePortType port_, Uint8List seed);
 }
 
 // Section: WASM wire connector
 
 class LightningMessageWire extends FlutterRustBridgeWasmWireBase<LightningMessageWasmModule> {
   LightningMessageWire(FutureOr<WasmModule> module) : super(WasmModule.cast<LightningMessageWasmModule>(module));
+
+  void wire_sign(NativePortType port_, String message, List<dynamic> signer) => wasmModule.wire_sign(port_, message, signer);
+
+  void wire_verify(NativePortType port_, String message, String signature, String public_key) => wasmModule.wire_verify(port_, message, signature, public_key);
+
+  void wire_recover_node_id(NativePortType port_, String message, String signature) => wasmModule.wire_recover_node_id(port_, message, signature);
+
+  void wire_from_seed__static_method__Signer(NativePortType port_, Uint8List seed) => wasmModule.wire_from_seed__static_method__Signer(port_, seed);
+
+  void wire_from_lightning_seed__static_method__Signer(NativePortType port_, Uint8List seed) => wasmModule.wire_from_lightning_seed__static_method__Signer(port_, seed);
 }

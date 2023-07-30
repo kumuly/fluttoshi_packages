@@ -8,6 +8,8 @@ import 'package:meta/meta.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:collection/collection.dart';
+
 import 'dart:convert';
 import 'dart:async';
 import 'package:meta/meta.dart';
@@ -15,7 +17,61 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:uuid/uuid.dart';
 import 'bridge_generated.io.dart' if (dart.library.html) 'bridge_generated.web.dart';
 
-abstract class LightningMessage {}
+abstract class LightningMessage {
+  Future<String> sign({required String message, required Signer signer, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSignConstMeta;
+
+  Future<bool> verify({required String message, required String signature, required String publicKey, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kVerifyConstMeta;
+
+  Future<String> recoverNodeId({required String message, required String signature, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kRecoverNodeIdConstMeta;
+
+  Future<Signer> fromSeedStaticMethodSigner({required U8Array64 seed, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFromSeedStaticMethodSignerConstMeta;
+
+  Future<Signer> fromLightningSeedStaticMethodSigner({required U8Array32 seed, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFromLightningSeedStaticMethodSignerConstMeta;
+}
+
+class Signer {
+  final LightningMessage bridge;
+  final U8Array32 secretKeyBytes;
+  final String nodeId;
+
+  const Signer({
+    required this.bridge,
+    required this.secretKeyBytes,
+    required this.nodeId,
+  });
+
+  static Future<Signer> fromSeed({required LightningMessage bridge, required U8Array64 seed, dynamic hint}) => bridge.fromSeedStaticMethodSigner(seed: seed, hint: hint);
+
+  static Future<Signer> fromLightningSeed({required LightningMessage bridge, required U8Array32 seed, dynamic hint}) => bridge.fromLightningSeedStaticMethodSigner(seed: seed, hint: hint);
+}
+
+class U8Array32 extends NonGrowableListView<int> {
+  static const arraySize = 32;
+  U8Array32(Uint8List inner)
+      : assert(inner.length == arraySize),
+        super(inner);
+  U8Array32.unchecked(Uint8List inner) : super(inner);
+  U8Array32.init() : super(Uint8List(arraySize));
+}
+
+class U8Array64 extends NonGrowableListView<int> {
+  static const arraySize = 64;
+  U8Array64(Uint8List inner)
+      : assert(inner.length == arraySize),
+        super(inner);
+  U8Array64.unchecked(Uint8List inner) : super(inner);
+  U8Array64.init() : super(Uint8List(arraySize));
+}
 
 class LightningMessageImpl implements LightningMessage {
   final LightningMessagePlatform _platform;
@@ -24,12 +80,159 @@ class LightningMessageImpl implements LightningMessage {
   /// Only valid on web/WASM platforms.
   factory LightningMessageImpl.wasm(FutureOr<WasmModule> module) => LightningMessageImpl(module as ExternalLibrary);
   LightningMessageImpl.raw(this._platform);
+  Future<String> sign({required String message, required Signer signer, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(message);
+    var arg1 = _platform.api2wire_box_autoadd_signer(signer);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_sign(port_, arg0, arg1),
+      parseSuccessData: _wire2api_String,
+      constMeta: kSignConstMeta,
+      argValues: [
+        message,
+        signer
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSignConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "sign",
+        argNames: [
+          "message",
+          "signer"
+        ],
+      );
+
+  Future<bool> verify({required String message, required String signature, required String publicKey, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(message);
+    var arg1 = _platform.api2wire_String(signature);
+    var arg2 = _platform.api2wire_String(publicKey);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_verify(port_, arg0, arg1, arg2),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kVerifyConstMeta,
+      argValues: [
+        message,
+        signature,
+        publicKey
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kVerifyConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "verify",
+        argNames: [
+          "message",
+          "signature",
+          "publicKey"
+        ],
+      );
+
+  Future<String> recoverNodeId({required String message, required String signature, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(message);
+    var arg1 = _platform.api2wire_String(signature);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_recover_node_id(port_, arg0, arg1),
+      parseSuccessData: _wire2api_String,
+      constMeta: kRecoverNodeIdConstMeta,
+      argValues: [
+        message,
+        signature
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kRecoverNodeIdConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "recover_node_id",
+        argNames: [
+          "message",
+          "signature"
+        ],
+      );
+
+  Future<Signer> fromSeedStaticMethodSigner({required U8Array64 seed, dynamic hint}) {
+    var arg0 = _platform.api2wire_u8_array_64(seed);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_from_seed__static_method__Signer(port_, arg0),
+      parseSuccessData: (d) => _wire2api_signer(d),
+      constMeta: kFromSeedStaticMethodSignerConstMeta,
+      argValues: [
+        seed
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFromSeedStaticMethodSignerConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "from_seed__static_method__Signer",
+        argNames: [
+          "seed"
+        ],
+      );
+
+  Future<Signer> fromLightningSeedStaticMethodSigner({required U8Array32 seed, dynamic hint}) {
+    var arg0 = _platform.api2wire_u8_array_32(seed);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_from_lightning_seed__static_method__Signer(port_, arg0),
+      parseSuccessData: (d) => _wire2api_signer(d),
+      constMeta: kFromLightningSeedStaticMethodSignerConstMeta,
+      argValues: [
+        seed
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFromLightningSeedStaticMethodSignerConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "from_lightning_seed__static_method__Signer",
+        argNames: [
+          "seed"
+        ],
+      );
+
   void dispose() {
     _platform.dispose();
   }
 // Section: wire2api
+
+  String _wire2api_String(dynamic raw) {
+    return raw as String;
+  }
+
+  bool _wire2api_bool(dynamic raw) {
+    return raw as bool;
+  }
+
+  Signer _wire2api_signer(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return Signer(
+      bridge: this,
+      secretKeyBytes: _wire2api_u8_array_32(arr[0]),
+      nodeId: _wire2api_String(arr[1]),
+    );
+  }
+
+  int _wire2api_u8(dynamic raw) {
+    return raw as int;
+  }
+
+  U8Array32 _wire2api_u8_array_32(dynamic raw) {
+    return U8Array32(_wire2api_uint_8_list(raw));
+  }
+
+  Uint8List _wire2api_uint_8_list(dynamic raw) {
+    return raw as Uint8List;
+  }
 }
 
 // Section: api2wire
+
+@protected
+int api2wire_u8(int raw) {
+  return raw;
+}
 
 // Section: finalizer

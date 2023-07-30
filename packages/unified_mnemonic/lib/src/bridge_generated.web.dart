@@ -68,6 +68,8 @@ class UnifiedMnemonicWasmModule implements WasmModule {
 
   external dynamic /* void */ wire_from_phrase__static_method__Mnemonic(NativePortType port_, String phrase);
 
+  external dynamic /* void */ wire_derive_seed__method__Mnemonic(NativePortType port_, List<dynamic> that);
+
   external dynamic /* void */ wire_derive_lightning_seed__method__Mnemonic(NativePortType port_, List<dynamic> that, int network, int? hardened_child_index);
 }
 
@@ -79,6 +81,8 @@ class UnifiedMnemonicWire extends FlutterRustBridgeWasmWireBase<UnifiedMnemonicW
   void wire_new__static_method__Mnemonic(NativePortType port_, int language, int word_count) => wasmModule.wire_new__static_method__Mnemonic(port_, language, word_count);
 
   void wire_from_phrase__static_method__Mnemonic(NativePortType port_, String phrase) => wasmModule.wire_from_phrase__static_method__Mnemonic(port_, phrase);
+
+  void wire_derive_seed__method__Mnemonic(NativePortType port_, List<dynamic> that) => wasmModule.wire_derive_seed__method__Mnemonic(port_, that);
 
   void wire_derive_lightning_seed__method__Mnemonic(NativePortType port_, List<dynamic> that, int network, int? hardened_child_index) => wasmModule.wire_derive_lightning_seed__method__Mnemonic(port_, that, network, hardened_child_index);
 }

@@ -86,6 +86,12 @@ impl Mnemonic {
         }
     }
 
+    pub fn derive_seed(&self) -> [u8; 64] {
+        let mnemonic =
+            bip39::Mnemonic::parse_in_normalized(self.language.into(), &self.phrase).unwrap();
+        mnemonic.to_seed_normalized("")
+    }
+
     pub fn derive_lightning_seed(
         &self,
         network: Network,
@@ -175,6 +181,14 @@ mod tests {
         let phrase= "fiel acoger acoger pereza torero ábaco gimnasio certeza piso vampiro culpa pista bozal acoger topar triste óptica forro diez firma lástima apodo víspera filial";
         let m = Mnemonic::from_phrase(phrase.to_string());
         assert_eq!(m.language, Language::Spanish);
+    }
+
+    #[test]
+    fn derive_seed_works() {
+        let phrase= "fiel acoger acoger pereza torero ábaco gimnasio certeza piso vampiro culpa pista bozal acoger topar triste óptica forro diez firma lástima apodo víspera filial";
+        let m = Mnemonic::from_phrase(phrase.to_string());
+        let seed = m.derive_seed();
+        assert_eq!(hex::encode(seed), "cffcf0a2c8767a71d318d0eefeda0e9066d149759af70b9c76131e3bad5ddea14026bdd289c8913e4a1a9e2e0f240e9bf1398a259ac4b306210cb45fc3bc1a8d");
     }
 
     #[test]

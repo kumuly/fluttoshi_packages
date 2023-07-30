@@ -35,6 +35,8 @@ void wire_new__static_method__Mnemonic(int64_t port_, int32_t language, int32_t 
 
 void wire_from_phrase__static_method__Mnemonic(int64_t port_, struct wire_uint_8_list *phrase);
 
+void wire_derive_seed__method__Mnemonic(int64_t port_, struct wire_Mnemonic *that);
+
 void wire_derive_lightning_seed__method__Mnemonic(int64_t port_,
                                                   struct wire_Mnemonic *that,
                                                   int32_t network,
@@ -52,6 +54,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
     dummy_var ^= ((int64_t) (void*) wire_new__static_method__Mnemonic);
     dummy_var ^= ((int64_t) (void*) wire_from_phrase__static_method__Mnemonic);
+    dummy_var ^= ((int64_t) (void*) wire_derive_seed__method__Mnemonic);
     dummy_var ^= ((int64_t) (void*) wire_derive_lightning_seed__method__Mnemonic);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_mnemonic_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u32_0);

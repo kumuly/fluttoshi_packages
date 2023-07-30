@@ -130,6 +130,33 @@ void main() {
     });
   });
 
+  group('A Seed Derivation', () {
+    test('Should be of 64 Bytes', () async {
+      final mnemonic = await Mnemonic.newMnemonic(
+        bridge: unifiedMnemonic,
+        language: Language.English,
+        wordCount: WordCount.Words12,
+      );
+      final seed = await mnemonic.deriveSeed();
+      expect(seed.length, 64);
+    });
+
+    test('Should be consistent with BIP39 Seed', () async {
+      final mnemonic = await Mnemonic.fromPhrase(
+        bridge: unifiedMnemonic,
+        phrase:
+            'fiel acoger acoger pereza torero ábaco gimnasio certeza piso vampiro culpa pista bozal acoger topar triste óptica forro diez firma lástima apodo víspera filial',
+      );
+      final seed = await mnemonic.deriveSeed();
+      final seedHex =
+          seed.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join();
+      expect(
+        seedHex,
+        'cffcf0a2c8767a71d318d0eefeda0e9066d149759af70b9c76131e3bad5ddea14026bdd289c8913e4a1a9e2e0f240e9bf1398a259ac4b306210cb45fc3bc1a8d',
+      );
+    });
+  });
+
   group('A Lightning Seed Derivation', () {
     test('should be of 32 Bytes', () async {
       final mnemonic = await Mnemonic.newMnemonic(

@@ -56,6 +56,22 @@ fn wire_from_phrase__static_method__Mnemonic_impl(
         },
     )
 }
+fn wire_derive_seed__method__Mnemonic_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Mnemonic> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, [u8; 64]>(
+        WrapInfo {
+            debug_name: "derive_seed__method__Mnemonic",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Ok(Mnemonic::derive_seed(&api_that))
+        },
+    )
+}
 fn wire_derive_lightning_seed__method__Mnemonic_impl(
     port_: MessagePort,
     that: impl Wire2Api<Mnemonic> + UnwindSafe,
@@ -212,6 +228,11 @@ mod web {
     }
 
     #[wasm_bindgen]
+    pub fn wire_derive_seed__method__Mnemonic(port_: MessagePort, that: JsValue) {
+        wire_derive_seed__method__Mnemonic_impl(port_, that)
+    }
+
+    #[wasm_bindgen]
     pub fn wire_derive_lightning_seed__method__Mnemonic(
         port_: MessagePort,
         that: JsValue,
@@ -331,6 +352,11 @@ mod io {
         phrase: *mut wire_uint_8_list,
     ) {
         wire_from_phrase__static_method__Mnemonic_impl(port_, phrase)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_derive_seed__method__Mnemonic(port_: i64, that: *mut wire_Mnemonic) {
+        wire_derive_seed__method__Mnemonic_impl(port_, that)
     }
 
     #[no_mangle]

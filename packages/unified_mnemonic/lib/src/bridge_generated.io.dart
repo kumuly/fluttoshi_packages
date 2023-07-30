@@ -163,6 +163,19 @@ class UnifiedMnemonicWire implements FlutterRustBridgeWireBase {
   late final _wire_from_phrase__static_method__MnemonicPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_from_phrase__static_method__Mnemonic');
   late final _wire_from_phrase__static_method__Mnemonic = _wire_from_phrase__static_method__MnemonicPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
+  void wire_derive_seed__method__Mnemonic(
+    int port_,
+    ffi.Pointer<wire_Mnemonic> that,
+  ) {
+    return _wire_derive_seed__method__Mnemonic(
+      port_,
+      that,
+    );
+  }
+
+  late final _wire_derive_seed__method__MnemonicPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Mnemonic>)>>('wire_derive_seed__method__Mnemonic');
+  late final _wire_derive_seed__method__Mnemonic = _wire_derive_seed__method__MnemonicPtr.asFunction<void Function(int, ffi.Pointer<wire_Mnemonic>)>();
+
   void wire_derive_lightning_seed__method__Mnemonic(
     int port_,
     ffi.Pointer<wire_Mnemonic> that,
