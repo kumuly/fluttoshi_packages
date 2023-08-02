@@ -57,7 +57,7 @@ In the future, to have less dependencies, it is possible we will eliminate `flut
 
 ```bash
 cd packages/<package_name>
-dart pub add flutter_rust_bridge ffi && dart pub add ffigen:^8.0.2 --dev
+dart pub add flutter_rust_bridge ffi && dart pub add ffigen --dev
 ```
 
 Make sure again the versions of the package and the dependencies are the same as the other packages in the monorepo.
@@ -72,6 +72,8 @@ mkdir -p lib/src/ffi && touch lib/src/ffi/io.dart lib/src/ffi/web.dart lib/src/f
 These files handle communication between Dart and native code. Depending on whether the application runs on a desktop/mobile (io.dart), in a web environment (web.dart), or lacks a specific implementation (stub.dart), a corresponding file will be selected. The ffi.dart file leverages conditional imports to use the correct platform-specific implementation, and it provides a function to create and store an instance of the api of the bindings for native interfacing.
 
 Copy the content of these files from other packages that use Rust and adapt them to the new package by changing the names of the return values of the wrappers and making sure the imports also have the path to the new package.
+
+It is normal that you see errors in the files, as we have not yet generated the bindings. That will happen automatically from the moment we have the Rust code in the package and the build process set up.
 
 Now add the following to the `<package_name>.dart` in the `lib` folder:
 
@@ -182,7 +184,9 @@ members = [
 
 Now run `cargo build` to check if everything compiles correctly. If it does, you can go on to implement the Rust code in the `api.rs` file as such.
 
-Make sure your Rust code has tests and that they pass. Also add tests and an example for the Dart code to know the bindings work correctly.
+Make sure your Rust code has tests, the Dart code too and an example in Dart works. Also add tests and an example for the Dart code to know the bindings work correctly.
+
+Now run `melos run build` to generate the bindings and the Dart code. If everything works correctly, you can go on to the next step.
 
 #### Wrapping in a Flutter package
 

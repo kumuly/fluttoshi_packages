@@ -37,10 +37,15 @@ void wire_from_phrase__static_method__Mnemonic(int64_t port_, struct wire_uint_8
 
 void wire_derive_seed__method__Mnemonic(int64_t port_, struct wire_Mnemonic *that);
 
-void wire_derive_lightning_seed__method__Mnemonic(int64_t port_,
-                                                  struct wire_Mnemonic *that,
-                                                  int32_t network,
-                                                  uint32_t *hardened_child_index);
+void wire_derive_ldk_wallet_xpriv__method__Mnemonic(int64_t port_,
+                                                    struct wire_Mnemonic *that,
+                                                    int32_t network,
+                                                    uint32_t *hardened_child_index);
+
+void wire_derive_ldk_seed__method__Mnemonic(int64_t port_,
+                                            struct wire_Mnemonic *that,
+                                            int32_t network,
+                                            uint32_t *hardened_child_index);
 
 struct wire_Mnemonic *new_box_autoadd_mnemonic_0(void);
 
@@ -55,7 +60,8 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_new__static_method__Mnemonic);
     dummy_var ^= ((int64_t) (void*) wire_from_phrase__static_method__Mnemonic);
     dummy_var ^= ((int64_t) (void*) wire_derive_seed__method__Mnemonic);
-    dummy_var ^= ((int64_t) (void*) wire_derive_lightning_seed__method__Mnemonic);
+    dummy_var ^= ((int64_t) (void*) wire_derive_ldk_wallet_xpriv__method__Mnemonic);
+    dummy_var ^= ((int64_t) (void*) wire_derive_ldk_seed__method__Mnemonic);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_mnemonic_0);
     dummy_var ^= ((int64_t) (void*) new_box_autoadd_u32_0);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);

@@ -92,11 +92,11 @@ impl Mnemonic {
         mnemonic.to_seed_normalized("")
     }
 
-    pub fn derive_lightning_seed(
+    pub fn derive_ldk_wallet_xpriv(
         &self,
         network: Network,
         hardened_child_index: Option<u32>,
-    ) -> [u8; 32] {
+    ) -> [u8; 78] {
         let mnemonic =
             bip39::Mnemonic::parse_in_normalized(self.language.into(), &self.phrase).unwrap();
         let seed = mnemonic.to_seed_normalized("");
@@ -111,6 +111,12 @@ impl Mnemonic {
                 },
             )
             .unwrap();
+        xprv.encode()
+    }
+
+    pub fn derive_ldk_seed(&self, network: Network, hardened_child_index: Option<u32>) -> [u8; 32] {
+        let xprv_encoded = self.derive_ldk_wallet_xpriv(network, hardened_child_index);
+        let xprv: ExtendedPrivKey = ExtendedPrivKey::decode(&xprv_encoded).unwrap();
         xprv.private_key.secret_bytes()
     }
 }
@@ -192,11 +198,21 @@ mod tests {
     }
 
     #[test]
-    fn derive_lightning_seed_works() {
+    fn derive_ldk_wallet_xpriv_works() {
         let phrase: &str =
             "goat magnet speed sweet release pill tiny decline talent extra sunny diamond";
         let mnemonic = Mnemonic::from_phrase(phrase.to_string());
-        let seed = mnemonic.derive_lightning_seed(Network::Bitcoin, None);
+        let xpriv_encoded = mnemonic.derive_ldk_wallet_xpriv(Network::Bitcoin, None);
+        let xpriv: ExtendedPrivKey = ExtendedPrivKey::decode(&xpriv_encoded).unwrap();
+        assert_eq!(xpriv.to_string(), "xprv9uRGFjPYAuWE4pjUDTKnZmsMUsdqEFFGRYtexmvqshhKoBC1h1aZjLjeYVFyBw6bywRCZQPvzUiAcbWFcgP7cfUwHmnjuGAwAq1aRXMLFuR");
+    }
+
+    #[test]
+    fn derive_ldk_seed_works() {
+        let phrase: &str =
+            "goat magnet speed sweet release pill tiny decline talent extra sunny diamond";
+        let mnemonic = Mnemonic::from_phrase(phrase.to_string());
+        let seed = mnemonic.derive_ldk_seed(Network::Bitcoin, None);
         // print the seed as a string
         // println!("String: {}", hex::encode(seed));
         let xpriv_from_seed = ExtendedPrivKey::new_master(Network::Bitcoin.into(), &seed).unwrap();

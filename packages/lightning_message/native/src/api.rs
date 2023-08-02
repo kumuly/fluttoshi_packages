@@ -12,19 +12,20 @@ pub struct Signer {
 }
 
 impl Signer {
-    // If you do not need a separate on-chain wallet and only the lightning node's internal wallet is ok, you can use this method.
+    // If you do not need a separate on-chain wallet or you already derived the seed yourself for the lightning wallet,
+    //  you can use this method.
     //  The lightning node's key is derived directly from the seed.
     pub fn from_seed(seed: [u8; 64]) -> Signer {
         // Note that when we aren't serializing the key, network doesn't matter
         let master_key = ExtendedPrivKey::new_master(Network::Bitcoin, &seed).unwrap();
-        let lightning_seed_bytes: [u8; constants::SECRET_KEY_SIZE] =
+        let ldk_seed_bytes: [u8; constants::SECRET_KEY_SIZE] =
             master_key.private_key.secret_bytes();
-        Signer::from_lightning_seed(lightning_seed_bytes)
+        Signer::from_ldk_seed(ldk_seed_bytes)
     }
 
-    // If you have a separate on-chain wallet and you want to manage it with the same mnemonic as the lightning node's mnemonic, you will have a derived lightning seed
-    //  and you can use this method.
-    pub fn from_lightning_seed(seed: [u8; 32]) -> Signer {
+    // If you have a separate on-chain wallet and you want to manage it with the same mnemonic as the lightning node's mnemonic,
+    //  you will have a derived lightning seed and you can use this method.
+    pub fn from_ldk_seed(seed: [u8; 32]) -> Signer {
         let secp_ctx = Secp256k1::new();
         // Note that when we aren't serializing the key, network doesn't matter
         match ExtendedPrivKey::new_master(Network::Bitcoin, &seed) {
@@ -92,14 +93,14 @@ mod test {
     }
 
     #[test]
-    fn signing_from_lightning_seed_works() {
-        let lightning_seed_hex = "426540629d356f207fd792c0215e787ded943a1c405a4353f7174926bb6fe129";
-        let lightning_seed_bytes = hex::decode(lightning_seed_hex).unwrap();
-        let lightning_seed_array = match <[u8; 32]>::try_from(&lightning_seed_bytes[..]) {
+    fn signing_from_ldk_seed_works() {
+        let ldk_seed_hex = "426540629d356f207fd792c0215e787ded943a1c405a4353f7174926bb6fe129";
+        let ldk_seed_bytes = hex::decode(ldk_seed_hex).unwrap();
+        let ldk_seed_array = match <[u8; 32]>::try_from(&ldk_seed_bytes[..]) {
             Ok(array) => array,
             Err(_) => panic!("Invalid seed length"),
         };
-        let signer = Signer::from_lightning_seed(lightning_seed_array);
+        let signer = Signer::from_ldk_seed(ldk_seed_array);
         let message = String::from("test message");
         let zbase32_sig = sign(message, signer);
         assert_eq!(zbase32_sig, "rdgd7i3odxbap66cgwpwu7wtachqgfs8naxrpb459e9uxa9kuce8g9cg3nstbziq5wpw7wpz5gjht1zn1s5nnngyc4jpc3wkowezm9kx");

@@ -22,105 +22,135 @@ use std::sync::Arc;
 
 // Section: wire functions
 
-fn wire_new__static_method__Mnemonic_impl(
+fn wire_all__static_method__Language_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<Language>>(
+        WrapInfo {
+            debug_name: "all__static_method__Language",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Ok(Language::all()),
+    )
+}
+fn wire_word_list__method__Language_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Language> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<String>>(
+        WrapInfo {
+            debug_name: "word_list__method__Language",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            move |task_callback| Ok(Language::word_list(&api_that))
+        },
+    )
+}
+fn wire_words_by_prefix__method__Language_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Language> + UnwindSafe,
+    prefix: impl Wire2Api<String> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<String>>(
+        WrapInfo {
+            debug_name: "words_by_prefix__method__Language",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_prefix = prefix.wire2api();
+            move |task_callback| Ok(Language::words_by_prefix(&api_that, api_prefix))
+        },
+    )
+}
+fn wire_find_word__method__Language_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Language> + UnwindSafe,
+    word: impl Wire2Api<String> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, i32>(
+        WrapInfo {
+            debug_name: "find_word__method__Language",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_word = word.wire2api();
+            move |task_callback| Ok(Language::find_word(&api_that, api_word))
+        },
+    )
+}
+fn wire_generate_in__static_method__Mnemonic_impl(
     port_: MessagePort,
     language: impl Wire2Api<Language> + UnwindSafe,
     word_count: impl Wire2Api<WordCount> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Mnemonic>(
         WrapInfo {
-            debug_name: "new__static_method__Mnemonic",
+            debug_name: "generate_in__static_method__Mnemonic",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_language = language.wire2api();
             let api_word_count = word_count.wire2api();
-            move |task_callback| Ok(Mnemonic::new(api_language, api_word_count))
+            move |task_callback| Ok(Mnemonic::generate_in(api_language, api_word_count))
         },
     )
 }
-fn wire_from_phrase__static_method__Mnemonic_impl(
+fn wire_parse__static_method__Mnemonic_impl(
     port_: MessagePort,
-    phrase: impl Wire2Api<String> + UnwindSafe,
+    words: impl Wire2Api<Vec<String>> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Mnemonic>(
         WrapInfo {
-            debug_name: "from_phrase__static_method__Mnemonic",
+            debug_name: "parse__static_method__Mnemonic",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
-            let api_phrase = phrase.wire2api();
-            move |task_callback| Ok(Mnemonic::from_phrase(api_phrase))
+            let api_words = words.wire2api();
+            move |task_callback| Ok(Mnemonic::parse(api_words))
         },
     )
 }
-fn wire_derive_seed__method__Mnemonic_impl(
+fn wire_parse_in__static_method__Mnemonic_impl(
+    port_: MessagePort,
+    language: impl Wire2Api<Language> + UnwindSafe,
+    words: impl Wire2Api<Vec<String>> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Mnemonic>(
+        WrapInfo {
+            debug_name: "parse_in__static_method__Mnemonic",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_language = language.wire2api();
+            let api_words = words.wire2api();
+            move |task_callback| Ok(Mnemonic::parse_in(api_language, api_words))
+        },
+    )
+}
+fn wire_to_seed__method__Mnemonic_impl(
     port_: MessagePort,
     that: impl Wire2Api<Mnemonic> + UnwindSafe,
+    passphrase: impl Wire2Api<String> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, [u8; 64]>(
         WrapInfo {
-            debug_name: "derive_seed__method__Mnemonic",
+            debug_name: "to_seed__method__Mnemonic",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_that = that.wire2api();
-            move |task_callback| Ok(Mnemonic::derive_seed(&api_that))
-        },
-    )
-}
-fn wire_derive_ldk_wallet_xpriv__method__Mnemonic_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<Mnemonic> + UnwindSafe,
-    network: impl Wire2Api<Network> + UnwindSafe,
-    hardened_child_index: impl Wire2Api<Option<u32>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, [u8; 78]>(
-        WrapInfo {
-            debug_name: "derive_ldk_wallet_xpriv__method__Mnemonic",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            let api_network = network.wire2api();
-            let api_hardened_child_index = hardened_child_index.wire2api();
-            move |task_callback| {
-                Ok(Mnemonic::derive_ldk_wallet_xpriv(
-                    &api_that,
-                    api_network,
-                    api_hardened_child_index,
-                ))
-            }
-        },
-    )
-}
-fn wire_derive_ldk_seed__method__Mnemonic_impl(
-    port_: MessagePort,
-    that: impl Wire2Api<Mnemonic> + UnwindSafe,
-    network: impl Wire2Api<Network> + UnwindSafe,
-    hardened_child_index: impl Wire2Api<Option<u32>> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, [u8; 32]>(
-        WrapInfo {
-            debug_name: "derive_ldk_seed__method__Mnemonic",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_that = that.wire2api();
-            let api_network = network.wire2api();
-            let api_hardened_child_index = hardened_child_index.wire2api();
-            move |task_callback| {
-                Ok(Mnemonic::derive_ldk_seed(
-                    &api_that,
-                    api_network,
-                    api_hardened_child_index,
-                ))
-            }
+            let api_passphrase = passphrase.wire2api();
+            move |task_callback| Ok(Mnemonic::to_seed(&api_that, api_passphrase))
         },
     )
 }
@@ -162,23 +192,6 @@ impl Wire2Api<Language> for i32 {
     }
 }
 
-impl Wire2Api<Network> for i32 {
-    fn wire2api(self) -> Network {
-        match self {
-            0 => Network::Bitcoin,
-            1 => Network::Testnet,
-            2 => Network::Signet,
-            3 => Network::Regtest,
-            _ => unreachable!("Invalid variant for Network: {}", self),
-        }
-    }
-}
-
-impl Wire2Api<u32> for u32 {
-    fn wire2api(self) -> u32 {
-        self
-    }
-}
 impl Wire2Api<u8> for u8 {
     fn wire2api(self) -> u8 {
         self
@@ -218,8 +231,8 @@ impl rust2dart::IntoIntoDart<Language> for Language {
 impl support::IntoDart for Mnemonic {
     fn into_dart(self) -> support::DartAbi {
         vec![
-            self.phrase.into_into_dart().into_dart(),
             self.language.into_into_dart().into_dart(),
+            self.words.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -244,43 +257,51 @@ mod web {
     // Section: wire functions
 
     #[wasm_bindgen]
-    pub fn wire_new__static_method__Mnemonic(port_: MessagePort, language: i32, word_count: i32) {
-        wire_new__static_method__Mnemonic_impl(port_, language, word_count)
+    pub fn wire_all__static_method__Language(port_: MessagePort) {
+        wire_all__static_method__Language_impl(port_)
     }
 
     #[wasm_bindgen]
-    pub fn wire_from_phrase__static_method__Mnemonic(port_: MessagePort, phrase: String) {
-        wire_from_phrase__static_method__Mnemonic_impl(port_, phrase)
+    pub fn wire_word_list__method__Language(port_: MessagePort, that: i32) {
+        wire_word_list__method__Language_impl(port_, that)
     }
 
     #[wasm_bindgen]
-    pub fn wire_derive_seed__method__Mnemonic(port_: MessagePort, that: JsValue) {
-        wire_derive_seed__method__Mnemonic_impl(port_, that)
+    pub fn wire_words_by_prefix__method__Language(port_: MessagePort, that: i32, prefix: String) {
+        wire_words_by_prefix__method__Language_impl(port_, that, prefix)
     }
 
     #[wasm_bindgen]
-    pub fn wire_derive_ldk_wallet_xpriv__method__Mnemonic(
+    pub fn wire_find_word__method__Language(port_: MessagePort, that: i32, word: String) {
+        wire_find_word__method__Language_impl(port_, that, word)
+    }
+
+    #[wasm_bindgen]
+    pub fn wire_generate_in__static_method__Mnemonic(
         port_: MessagePort,
-        that: JsValue,
-        network: i32,
-        hardened_child_index: JsValue,
+        language: i32,
+        word_count: i32,
     ) {
-        wire_derive_ldk_wallet_xpriv__method__Mnemonic_impl(
-            port_,
-            that,
-            network,
-            hardened_child_index,
-        )
+        wire_generate_in__static_method__Mnemonic_impl(port_, language, word_count)
     }
 
     #[wasm_bindgen]
-    pub fn wire_derive_ldk_seed__method__Mnemonic(
+    pub fn wire_parse__static_method__Mnemonic(port_: MessagePort, words: JsValue) {
+        wire_parse__static_method__Mnemonic_impl(port_, words)
+    }
+
+    #[wasm_bindgen]
+    pub fn wire_parse_in__static_method__Mnemonic(
         port_: MessagePort,
-        that: JsValue,
-        network: i32,
-        hardened_child_index: JsValue,
+        language: i32,
+        words: JsValue,
     ) {
-        wire_derive_ldk_seed__method__Mnemonic_impl(port_, that, network, hardened_child_index)
+        wire_parse_in__static_method__Mnemonic_impl(port_, language, words)
+    }
+
+    #[wasm_bindgen]
+    pub fn wire_to_seed__method__Mnemonic(port_: MessagePort, that: JsValue, passphrase: String) {
+        wire_to_seed__method__Mnemonic_impl(port_, that, passphrase)
     }
 
     // Section: allocate functions
@@ -294,6 +315,15 @@ mod web {
             self
         }
     }
+    impl Wire2Api<Vec<String>> for JsValue {
+        fn wire2api(self) -> Vec<String> {
+            self.dyn_into::<JsArray>()
+                .unwrap()
+                .iter()
+                .map(Wire2Api::wire2api)
+                .collect()
+        }
+    }
 
     impl Wire2Api<Mnemonic> for JsValue {
         fn wire2api(self) -> Mnemonic {
@@ -305,8 +335,8 @@ mod web {
                 self_.length()
             );
             Mnemonic {
-                phrase: self_.get(0).wire2api(),
-                language: self_.get(1).wire2api(),
+                language: self_.get(0).wire2api(),
+                words: self_.get(1).wire2api(),
             }
         }
     }
@@ -334,21 +364,6 @@ mod web {
             (self.unchecked_into_f64() as i32).wire2api()
         }
     }
-    impl Wire2Api<Network> for JsValue {
-        fn wire2api(self) -> Network {
-            (self.unchecked_into_f64() as i32).wire2api()
-        }
-    }
-    impl Wire2Api<Option<u32>> for JsValue {
-        fn wire2api(self) -> Option<u32> {
-            (!self.is_undefined() && !self.is_null()).then(|| self.wire2api())
-        }
-    }
-    impl Wire2Api<u32> for JsValue {
-        fn wire2api(self) -> u32 {
-            self.unchecked_into_f64() as _
-        }
-    }
     impl Wire2Api<u8> for JsValue {
         fn wire2api(self) -> u8 {
             self.unchecked_into_f64() as _
@@ -374,62 +389,79 @@ mod io {
     // Section: wire functions
 
     #[no_mangle]
-    pub extern "C" fn wire_new__static_method__Mnemonic(
+    pub extern "C" fn wire_all__static_method__Language(port_: i64) {
+        wire_all__static_method__Language_impl(port_)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_word_list__method__Language(port_: i64, that: i32) {
+        wire_word_list__method__Language_impl(port_, that)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_words_by_prefix__method__Language(
+        port_: i64,
+        that: i32,
+        prefix: *mut wire_uint_8_list,
+    ) {
+        wire_words_by_prefix__method__Language_impl(port_, that, prefix)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_find_word__method__Language(
+        port_: i64,
+        that: i32,
+        word: *mut wire_uint_8_list,
+    ) {
+        wire_find_word__method__Language_impl(port_, that, word)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_generate_in__static_method__Mnemonic(
         port_: i64,
         language: i32,
         word_count: i32,
     ) {
-        wire_new__static_method__Mnemonic_impl(port_, language, word_count)
+        wire_generate_in__static_method__Mnemonic_impl(port_, language, word_count)
     }
 
     #[no_mangle]
-    pub extern "C" fn wire_from_phrase__static_method__Mnemonic(
+    pub extern "C" fn wire_parse__static_method__Mnemonic(port_: i64, words: *mut wire_StringList) {
+        wire_parse__static_method__Mnemonic_impl(port_, words)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_parse_in__static_method__Mnemonic(
         port_: i64,
-        phrase: *mut wire_uint_8_list,
+        language: i32,
+        words: *mut wire_StringList,
     ) {
-        wire_from_phrase__static_method__Mnemonic_impl(port_, phrase)
+        wire_parse_in__static_method__Mnemonic_impl(port_, language, words)
     }
 
     #[no_mangle]
-    pub extern "C" fn wire_derive_seed__method__Mnemonic(port_: i64, that: *mut wire_Mnemonic) {
-        wire_derive_seed__method__Mnemonic_impl(port_, that)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn wire_derive_ldk_wallet_xpriv__method__Mnemonic(
-        port_: i64,
-        that: *mut wire_Mnemonic,
-        network: i32,
-        hardened_child_index: *mut u32,
-    ) {
-        wire_derive_ldk_wallet_xpriv__method__Mnemonic_impl(
-            port_,
-            that,
-            network,
-            hardened_child_index,
-        )
-    }
-
-    #[no_mangle]
-    pub extern "C" fn wire_derive_ldk_seed__method__Mnemonic(
+    pub extern "C" fn wire_to_seed__method__Mnemonic(
         port_: i64,
         that: *mut wire_Mnemonic,
-        network: i32,
-        hardened_child_index: *mut u32,
+        passphrase: *mut wire_uint_8_list,
     ) {
-        wire_derive_ldk_seed__method__Mnemonic_impl(port_, that, network, hardened_child_index)
+        wire_to_seed__method__Mnemonic_impl(port_, that, passphrase)
     }
 
     // Section: allocate functions
 
     #[no_mangle]
-    pub extern "C" fn new_box_autoadd_mnemonic_0() -> *mut wire_Mnemonic {
-        support::new_leak_box_ptr(wire_Mnemonic::new_with_null_ptr())
+    pub extern "C" fn new_StringList_0(len: i32) -> *mut wire_StringList {
+        let wrap = wire_StringList {
+            ptr: support::new_leak_vec_ptr(<*mut wire_uint_8_list>::new_with_null_ptr(), len),
+            len,
+        };
+        support::new_leak_box_ptr(wrap)
     }
 
     #[no_mangle]
-    pub extern "C" fn new_box_autoadd_u32_0(value: u32) -> *mut u32 {
-        support::new_leak_box_ptr(value)
+    pub extern "C" fn new_box_autoadd_mnemonic_0() -> *mut wire_Mnemonic {
+        support::new_leak_box_ptr(wire_Mnemonic::new_with_null_ptr())
     }
 
     #[no_mangle]
@@ -451,23 +483,27 @@ mod io {
             String::from_utf8_lossy(&vec).into_owned()
         }
     }
+    impl Wire2Api<Vec<String>> for *mut wire_StringList {
+        fn wire2api(self) -> Vec<String> {
+            let vec = unsafe {
+                let wrap = support::box_from_leak_ptr(self);
+                support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+            };
+            vec.into_iter().map(Wire2Api::wire2api).collect()
+        }
+    }
     impl Wire2Api<Mnemonic> for *mut wire_Mnemonic {
         fn wire2api(self) -> Mnemonic {
             let wrap = unsafe { support::box_from_leak_ptr(self) };
             Wire2Api::<Mnemonic>::wire2api(*wrap).into()
         }
     }
-    impl Wire2Api<u32> for *mut u32 {
-        fn wire2api(self) -> u32 {
-            unsafe { *support::box_from_leak_ptr(self) }
-        }
-    }
 
     impl Wire2Api<Mnemonic> for wire_Mnemonic {
         fn wire2api(self) -> Mnemonic {
             Mnemonic {
-                phrase: self.phrase.wire2api(),
                 language: self.language.wire2api(),
+                words: self.words.wire2api(),
             }
         }
     }
@@ -485,9 +521,16 @@ mod io {
 
     #[repr(C)]
     #[derive(Clone)]
+    pub struct wire_StringList {
+        ptr: *mut *mut wire_uint_8_list,
+        len: i32,
+    }
+
+    #[repr(C)]
+    #[derive(Clone)]
     pub struct wire_Mnemonic {
-        phrase: *mut wire_uint_8_list,
         language: i32,
+        words: *mut wire_StringList,
     }
 
     #[repr(C)]
@@ -512,8 +555,8 @@ mod io {
     impl NewWithNullPtr for wire_Mnemonic {
         fn new_with_null_ptr() -> Self {
             Self {
-                phrase: core::ptr::null_mut(),
                 language: Default::default(),
+                words: core::ptr::null_mut(),
             }
         }
     }
