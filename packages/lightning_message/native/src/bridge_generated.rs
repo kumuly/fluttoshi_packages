@@ -22,24 +22,6 @@ use std::sync::Arc;
 
 // Section: wire functions
 
-fn wire_sign_impl(
-    port_: MessagePort,
-    message: impl Wire2Api<String> + UnwindSafe,
-    signer: impl Wire2Api<Signer> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String>(
-        WrapInfo {
-            debug_name: "sign",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_message = message.wire2api();
-            let api_signer = signer.wire2api();
-            move |task_callback| Ok(sign(api_message, api_signer))
-        },
-    )
-}
 fn wire_verify_impl(
     port_: MessagePort,
     message: impl Wire2Api<String> + UnwindSafe,
@@ -110,6 +92,24 @@ fn wire_from_ldk_seed__static_method__Signer_impl(
         },
     )
 }
+fn wire_sign__method__Signer_impl(
+    port_: MessagePort,
+    that: impl Wire2Api<Signer> + UnwindSafe,
+    message: impl Wire2Api<String> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String>(
+        WrapInfo {
+            debug_name: "sign__method__Signer",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_that = that.wire2api();
+            let api_message = message.wire2api();
+            move |task_callback| Ok(Signer::sign(&api_that, api_message))
+        },
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks
@@ -170,11 +170,6 @@ mod web {
     // Section: wire functions
 
     #[wasm_bindgen]
-    pub fn wire_sign(port_: MessagePort, message: String, signer: JsValue) {
-        wire_sign_impl(port_, message, signer)
-    }
-
-    #[wasm_bindgen]
     pub fn wire_verify(port_: MessagePort, message: String, signature: String, public_key: String) {
         wire_verify_impl(port_, message, signature, public_key)
     }
@@ -192,6 +187,11 @@ mod web {
     #[wasm_bindgen]
     pub fn wire_from_ldk_seed__static_method__Signer(port_: MessagePort, seed: Box<[u8]>) {
         wire_from_ldk_seed__static_method__Signer_impl(port_, seed)
+    }
+
+    #[wasm_bindgen]
+    pub fn wire_sign__method__Signer(port_: MessagePort, that: JsValue, message: String) {
+        wire_sign__method__Signer_impl(port_, that, message)
     }
 
     // Section: allocate functions
@@ -278,15 +278,6 @@ mod io {
     // Section: wire functions
 
     #[no_mangle]
-    pub extern "C" fn wire_sign(
-        port_: i64,
-        message: *mut wire_uint_8_list,
-        signer: *mut wire_Signer,
-    ) {
-        wire_sign_impl(port_, message, signer)
-    }
-
-    #[no_mangle]
     pub extern "C" fn wire_verify(
         port_: i64,
         message: *mut wire_uint_8_list,
@@ -319,6 +310,15 @@ mod io {
         seed: *mut wire_uint_8_list,
     ) {
         wire_from_ldk_seed__static_method__Signer_impl(port_, seed)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_sign__method__Signer(
+        port_: i64,
+        that: *mut wire_Signer,
+        message: *mut wire_uint_8_list,
+    ) {
+        wire_sign__method__Signer_impl(port_, that, message)
     }
 
     // Section: allocate functions

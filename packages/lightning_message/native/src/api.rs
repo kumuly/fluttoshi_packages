@@ -44,18 +44,18 @@ impl Signer {
             Err(_) => panic!("Your rng is busted"),
         }
     }
+
+    pub fn sign(&self, message: String) -> String {
+        let secret_key = SecretKey::from_slice(&self.secret_key_bytes).unwrap();
+        let msg = message.as_str().as_bytes();
+        message_signing::sign(msg, &secret_key).unwrap()
+    }
 }
 
 impl From<Signer> for SecretKey {
     fn from(signer: Signer) -> Self {
         SecretKey::from_slice(&signer.secret_key_bytes).unwrap()
     }
-}
-
-pub fn sign(message: String, signer: Signer) -> String {
-    let secret_key = SecretKey::from_slice(&signer.secret_key_bytes).unwrap();
-    let msg = message.as_str().as_bytes();
-    message_signing::sign(msg, &secret_key).unwrap()
 }
 
 pub fn verify(message: String, signature: String, public_key: String) -> bool {
@@ -87,7 +87,7 @@ mod test {
         };
         let signer = Signer::from_seed(seed_array);
         let message = String::from("test message");
-        let zbase32_sig = sign(message, signer);
+        let zbase32_sig = signer.sign(message);
 
         assert_eq!(zbase32_sig, "dh6g5jcckfwrpc8mhwgm74m5cddkc755t4x1p477baf8bjwd769ie8chgtauc3jukce5ctgdujw5b3hsj5mpmp6d9ijfkih6ymn91jg9");
     }
@@ -102,7 +102,7 @@ mod test {
         };
         let signer = Signer::from_ldk_seed(ldk_seed_array);
         let message = String::from("test message");
-        let zbase32_sig = sign(message, signer);
+        let zbase32_sig = signer.sign(message);
         assert_eq!(zbase32_sig, "rdgd7i3odxbap66cgwpwu7wtachqgfs8naxrpb459e9uxa9kuce8g9cg3nstbziq5wpw7wpz5gjht1zn1s5nnngyc4jpc3wkowezm9kx");
     }
 
@@ -141,7 +141,7 @@ mod test {
         let signer = Signer::from_seed(seed_array);
         let node_id = signer.node_id.clone();
         let message = String::from("test message");
-        let zbase32_sig = sign(message.clone(), signer);
+        let zbase32_sig = signer.sign(message.clone());
 
         assert_eq!(recover_node_id(message, zbase32_sig), node_id);
     }

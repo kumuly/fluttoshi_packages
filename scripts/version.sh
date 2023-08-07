@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for LIBRARY_NAME in unified_mnemonic lightning_message
+for LIBRARY_NAME in bip39 lightning_message
 do
   CURR_VERSION=${LIBRARY_NAME}-v`awk '/^version: /{print $2}' packages/${LIBRARY_NAME}/pubspec.yaml`
 

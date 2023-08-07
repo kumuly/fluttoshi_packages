@@ -18,10 +18,6 @@ import 'package:uuid/uuid.dart';
 import 'bridge_generated.io.dart' if (dart.library.html) 'bridge_generated.web.dart';
 
 abstract class LightningMessage {
-  Future<String> sign({required String message, required Signer signer, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kSignConstMeta;
-
   Future<bool> verify({required String message, required String signature, required String publicKey, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kVerifyConstMeta;
@@ -37,6 +33,10 @@ abstract class LightningMessage {
   Future<Signer> fromLdkSeedStaticMethodSigner({required U8Array32 seed, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kFromLdkSeedStaticMethodSignerConstMeta;
+
+  Future<String> signMethodSigner({required Signer that, required String message, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kSignMethodSignerConstMeta;
 }
 
 class Signer {
@@ -53,6 +53,11 @@ class Signer {
   static Future<Signer> fromSeed({required LightningMessage bridge, required U8Array64 seed, dynamic hint}) => bridge.fromSeedStaticMethodSigner(seed: seed, hint: hint);
 
   static Future<Signer> fromLdkSeed({required LightningMessage bridge, required U8Array32 seed, dynamic hint}) => bridge.fromLdkSeedStaticMethodSigner(seed: seed, hint: hint);
+
+  Future<String> sign({required String message, dynamic hint}) => bridge.signMethodSigner(
+        that: this,
+        message: message,
+      );
 }
 
 class U8Array32 extends NonGrowableListView<int> {
@@ -80,29 +85,6 @@ class LightningMessageImpl implements LightningMessage {
   /// Only valid on web/WASM platforms.
   factory LightningMessageImpl.wasm(FutureOr<WasmModule> module) => LightningMessageImpl(module as ExternalLibrary);
   LightningMessageImpl.raw(this._platform);
-  Future<String> sign({required String message, required Signer signer, dynamic hint}) {
-    var arg0 = _platform.api2wire_String(message);
-    var arg1 = _platform.api2wire_box_autoadd_signer(signer);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_sign(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      constMeta: kSignConstMeta,
-      argValues: [
-        message,
-        signer
-      ],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kSignConstMeta => const FlutterRustBridgeTaskConstMeta(
-        debugName: "sign",
-        argNames: [
-          "message",
-          "signer"
-        ],
-      );
-
   Future<bool> verify({required String message, required String signature, required String publicKey, dynamic hint}) {
     var arg0 = _platform.api2wire_String(message);
     var arg1 = _platform.api2wire_String(signature);
@@ -189,6 +171,29 @@ class LightningMessageImpl implements LightningMessage {
         debugName: "from_ldk_seed__static_method__Signer",
         argNames: [
           "seed"
+        ],
+      );
+
+  Future<String> signMethodSigner({required Signer that, required String message, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_signer(that);
+    var arg1 = _platform.api2wire_String(message);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_sign__method__Signer(port_, arg0, arg1),
+      parseSuccessData: _wire2api_String,
+      constMeta: kSignMethodSignerConstMeta,
+      argValues: [
+        that,
+        message
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSignMethodSignerConstMeta => const FlutterRustBridgeTaskConstMeta(
+        debugName: "sign__method__Signer",
+        argNames: [
+          "that",
+          "message"
         ],
       );
 

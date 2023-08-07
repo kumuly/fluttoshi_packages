@@ -138,21 +138,6 @@ class LightningMessageWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dlPtr = _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>('init_frb_dart_api_dl');
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
-  void wire_sign(
-    int port_,
-    ffi.Pointer<wire_uint_8_list> message,
-    ffi.Pointer<wire_Signer> signer,
-  ) {
-    return _wire_sign(
-      port_,
-      message,
-      signer,
-    );
-  }
-
-  late final _wire_signPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_Signer>)>>('wire_sign');
-  late final _wire_sign = _wire_signPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_Signer>)>();
-
   void wire_verify(
     int port_,
     ffi.Pointer<wire_uint_8_list> message,
@@ -210,6 +195,21 @@ class LightningMessageWire implements FlutterRustBridgeWireBase {
 
   late final _wire_from_ldk_seed__static_method__SignerPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_from_ldk_seed__static_method__Signer');
   late final _wire_from_ldk_seed__static_method__Signer = _wire_from_ldk_seed__static_method__SignerPtr.asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_sign__method__Signer(
+    int port_,
+    ffi.Pointer<wire_Signer> that,
+    ffi.Pointer<wire_uint_8_list> message,
+  ) {
+    return _wire_sign__method__Signer(
+      port_,
+      that,
+      message,
+    );
+  }
+
+  late final _wire_sign__method__SignerPtr = _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Signer>, ffi.Pointer<wire_uint_8_list>)>>('wire_sign__method__Signer');
+  late final _wire_sign__method__Signer = _wire_sign__method__SignerPtr.asFunction<void Function(int, ffi.Pointer<wire_Signer>, ffi.Pointer<wire_uint_8_list>)>();
 
   ffi.Pointer<wire_Signer> new_box_autoadd_signer_0() {
     return _new_box_autoadd_signer_0();

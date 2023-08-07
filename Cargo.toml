@@ -1,10 +1,5 @@
 [workspace]
-members = [
-    "packages/bip39/native",
-    "packages/unified_mnemonic/native",
-    "packages/lightning_message/native",
-
-]
+members = ["packages/bip39/native", "packages/lightning_message/native"]
 
 [profile.release]
 lto = true
