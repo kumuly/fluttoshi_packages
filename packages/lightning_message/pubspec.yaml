@@ -15,7 +15,7 @@ environment:
 dependencies:
   convert: ^3.1.1
   ffi: ^2.0.2
-  flutter_rust_bridge: ^1.79.0
+  flutter_rust_bridge: ^1.80.1
   # path: ^1.8.0
 
 dev_dependencies:

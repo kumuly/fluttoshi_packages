@@ -177,7 +177,7 @@ mod tests {
     fn test_find_word() {
         let word = "about".to_string();
         let lang = Language::English;
-        assert_eq!(lang.find_word(word.clone()), 3);
+        assert_eq!(lang.find_word(word), 3);
     }
 
     #[test]
