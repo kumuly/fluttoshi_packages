@@ -1,3 +1,7 @@
 {
-  "C_Cpp.errorSquiggles": "disabled"
+  "C_Cpp.errorSquiggles": "disabled",
+  "rust-analyzer.linkedProjects": [
+    "./packages/bip39/native/Cargo.toml",
+    "./packages/bip39/native/Cargo.toml"
+  ]
 }

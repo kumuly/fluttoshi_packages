@@ -12,3 +12,4 @@ Link to Issue (optional):
 
 - [ ] tested
 - [ ] documented
+- [ ] dependency versions consistent with other packages

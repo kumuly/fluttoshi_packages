@@ -1,0 +1,21 @@
+name: bip39
+description: >
+  A Dart library that implements the bip39 to generate and restore mnemonics and seeds to later derive deterministic keys and wallets.
+version: 0.0.1
+homepage: https://kumuly.dev
+repository: https://github.com/kumuly/fluttoshi_packages
+issue_tracker: https://github.com/kumuly/fluttoshi_packages/issues
+
+environment:
+  sdk: ^3.0.6
+
+# Add regular dependencies here.
+dependencies:
+  ffi: ^2.0.2
+  flutter_rust_bridge: ^1.80.1
+  # path: ^1.8.0
+
+dev_dependencies:
+  ffigen: ^8.0.2
+  lints: ^2.0.0
+  test: ^1.21.0

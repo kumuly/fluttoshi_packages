@@ -25,8 +25,11 @@ jobs:
           components: rustfmt, clippy
 
       # Rust
-      - name: Check Rust format
-        working-directory: ./packages/unified_mnemonic/native/src
+      - name: Check Rust format in bip39
+        working-directory: ./packages/bip39/native/src
+        run: rustfmt --check lib.rs
+      - name: Check Rust format in lightning_message
+        working-directory: ./packages/lightning_message/native/src
         run: rustfmt --check lib.rs
       - name: Rust code analysis
         run: cargo clippy -- -D warnings

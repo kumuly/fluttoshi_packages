@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for LIBRARY_NAME in unified_mnemonic
+for LIBRARY_NAME in bip39 lightning_message
 do
     # Setup
     BUILD_DIR=platform-build
@@ -45,4 +45,6 @@ do
 
     # Cleanup
     rm -rf linux-* windows-*
+    # Back to root
+    cd -
 done
