@@ -63,6 +63,48 @@ void main() {
       expect(notFoundIndex, -1);
     });
   });
+
+  group('Mnemonic tests - ', () {
+    final words = [
+      'mind',
+      'boil',
+      'voice',
+      'table',
+      'general',
+      'gym',
+      'lunar',
+      'exhaust',
+      'shoulder',
+      'usage',
+      'hero',
+      'father',
+    ];
+    test('Generate mnemonic', () async {
+      final mnemonic = await bip39.generateInStaticMethodMnemonic(
+        language: Language.English,
+        wordCount: WordCount.Words12,
+      );
+      expect(mnemonic.words.length, 12);
+    });
+
+    test('Recover mnemonic', () async {
+      final mnemonic = await bip39.parseStaticMethodMnemonic(words: words);
+      expect(mnemonic.words, words);
+      expect(mnemonic.language, Language.English);
+    });
+
+    test('Derive seed', () async {
+      final mnemonic = await bip39.parseStaticMethodMnemonic(words: words);
+      final seed = await mnemonic.toSeed(passphrase: '');
+      final seedHex =
+          seed.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join();
+      expect(
+        seedHex,
+        'f7eae7a9b7a67d641913956e1e8fc0694884bca82824b3a2f34239a36cc3b'
+        'ae9ef4668a9305ddc5f750366608c7356687fd0abe188a2055adf4dfd3128669ad7',
+      );
+    });
+  });
 }
 
 DynamicLibrary useLibrary() {

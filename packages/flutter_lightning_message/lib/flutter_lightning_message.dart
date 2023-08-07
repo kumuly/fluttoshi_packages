@@ -1,4 +1,4 @@
-/// Todo: add a description.
+/// Support for lightning messages.
 ///
 /// More dartdocs go here.
 library;

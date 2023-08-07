@@ -1,5 +1,5 @@
-import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:bip39/src/bridge_generated.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 
 /// Represents the external library for bip39 when running in a web
 /// environment.

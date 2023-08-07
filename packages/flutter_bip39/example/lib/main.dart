@@ -15,14 +15,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late int sumResult;
-  late Future<int> sumAsyncResult;
+  late List<flutter_bip39.Language> allLanguages;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-    sumResult = flutter_bip39.sum(1, 2);
-    sumAsyncResult = flutter_bip39.sumAsync(3, 4);
+    allLanguages = await flutter_bip39.allLanguages();
   }
 
   @override
@@ -47,22 +45,9 @@ class _MyAppState extends State<MyApp> {
                 ),
                 spacerSmall,
                 Text(
-                  'sum(1, 2) = $sumResult',
+                  'allLanguages = $allLanguages',
                   style: textStyle,
                   textAlign: TextAlign.center,
-                ),
-                spacerSmall,
-                FutureBuilder<int>(
-                  future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-                    final displayValue =
-                        (value.hasData) ? value.data : 'loading';
-                    return Text(
-                      'await sumAsync(3, 4) = $displayValue',
-                      style: textStyle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
                 ),
               ],
             ),
