@@ -110,9 +110,9 @@ impl Mnemonic {
             .into()
     }
 
-    pub fn to_seed(&self, passphrase: String) -> [u8; 64] {
+    pub fn to_seed(&self, passphrase: String) -> Vec<u8> {
         let bip39_mnemonic: bip39::Mnemonic = self.into();
-        bip39_mnemonic.to_seed(passphrase.as_str())
+        bip39_mnemonic.to_seed(passphrase.as_str()).to_vec()
     }
 }
 

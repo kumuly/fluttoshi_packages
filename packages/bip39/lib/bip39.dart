@@ -1,3 +1,5 @@
+/// Support for bip39.
+///
 /// Document the library here.
 library;
 

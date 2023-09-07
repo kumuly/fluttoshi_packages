@@ -1,5 +1,6 @@
 [workspace]
-members = ["packages/lightning_message/native", "packages/bip39/native"]
+members = ["packages/bip39/native"]
+resolver = "2"
 
 [profile.release]
 lto = true

@@ -11,7 +11,8 @@ environment:
   flutter: ">=3.3.0"
 
 dependencies:
-  bip39: ^0.0.1
+  bip39:
+    path: ../bip39
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2

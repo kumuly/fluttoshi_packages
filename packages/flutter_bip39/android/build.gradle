@@ -37,5 +37,7 @@ android {
             path "CMakeLists.txt"
         }
     }
+
+    namespace "dev.kumuly.flutter_bip39"
 }
 

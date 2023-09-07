@@ -13,7 +13,6 @@ We mainly use the [Lightning Development Kit](https://www.lightningdevkit.org) a
 ## Packages
 
 - [x] `bip39`: package to generate and/or restore mnemonics and derive other keys and seeds from them.
-- [x] `lightning_message`: package to sign and verify Lightning messages. Useful for proving ownership of a node, which in turn is useful for login mechanisms to get rid of username and passwords in apps, amongst other things.
 - [ ] `unified_wallet`: package to derive different seeds from the same mnemonic for different wallet types. For example, have a Bitcoin on-chain wallet, a Bitcoin on-chain wallet with passphrase and a Lightning node wallet, all derived from and unified by just one mnemonic to safely store.
 - [ ] `breez_sdk`: package to set up a Lightning node, based on Breez SDK, that is compatible with the other packages in this repo.
 - [ ] `ldk`: package to set up a Lightning node, based on LDK, in a Flutter app.
