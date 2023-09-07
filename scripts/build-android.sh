@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for LIBRARY_NAME in bip39 lightning_message
+for LIBRARY_NAME in bip39
 do
     # Setup
     BUILD_DIR=platform-build

@@ -141,7 +141,7 @@ fn wire_to_seed__method__Mnemonic_impl(
     that: impl Wire2Api<Mnemonic> + UnwindSafe,
     passphrase: impl Wire2Api<String> + UnwindSafe,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, [u8; 64]>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<u8>>(
         WrapInfo {
             debug_name: "to_seed__method__Mnemonic",
             port: Some(port_),

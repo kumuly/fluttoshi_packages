@@ -8,8 +8,6 @@ import 'package:meta/meta.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:collection/collection.dart';
-
 import 'dart:convert';
 import 'dart:async';
 import 'package:meta/meta.dart';
@@ -46,7 +44,7 @@ abstract class Bip39 {
 
   FlutterRustBridgeTaskConstMeta get kParseInStaticMethodMnemonicConstMeta;
 
-  Future<U8Array64> toSeedMethodMnemonic({required Mnemonic that, required String passphrase, dynamic hint});
+  Future<Uint8List> toSeedMethodMnemonic({required Mnemonic that, required String passphrase, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kToSeedMethodMnemonicConstMeta;
 }
@@ -77,19 +75,10 @@ class Mnemonic {
 
   static Future<Mnemonic> parseIn({required Bip39 bridge, required Language language, required List<String> words, dynamic hint}) => bridge.parseInStaticMethodMnemonic(language: language, words: words, hint: hint);
 
-  Future<U8Array64> toSeed({required String passphrase, dynamic hint}) => bridge.toSeedMethodMnemonic(
+  Future<Uint8List> toSeed({required String passphrase, dynamic hint}) => bridge.toSeedMethodMnemonic(
         that: this,
         passphrase: passphrase,
       );
-}
-
-class U8Array64 extends NonGrowableListView<int> {
-  static const arraySize = 64;
-  U8Array64(Uint8List inner)
-      : assert(inner.length == arraySize),
-        super(inner);
-  U8Array64.unchecked(Uint8List inner) : super(inner);
-  U8Array64.init() : super(Uint8List(arraySize));
 }
 
 /// Type describing entropy length (aka word count) in the mnemonic
@@ -264,12 +253,12 @@ class Bip39Impl implements Bip39 {
         ],
       );
 
-  Future<U8Array64> toSeedMethodMnemonic({required Mnemonic that, required String passphrase, dynamic hint}) {
+  Future<Uint8List> toSeedMethodMnemonic({required Mnemonic that, required String passphrase, dynamic hint}) {
     var arg0 = _platform.api2wire_box_autoadd_mnemonic(that);
     var arg1 = _platform.api2wire_String(passphrase);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_to_seed__method__Mnemonic(port_, arg0, arg1),
-      parseSuccessData: _wire2api_u8_array_64,
+      parseSuccessData: _wire2api_uint_8_list,
       constMeta: kToSeedMethodMnemonicConstMeta,
       argValues: [
         that,
@@ -324,10 +313,6 @@ class Bip39Impl implements Bip39 {
 
   int _wire2api_u8(dynamic raw) {
     return raw as int;
-  }
-
-  U8Array64 _wire2api_u8_array_64(dynamic raw) {
-    return U8Array64(_wire2api_uint_8_list(raw));
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {

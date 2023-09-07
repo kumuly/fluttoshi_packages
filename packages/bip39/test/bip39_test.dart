@@ -35,7 +35,7 @@ void main() {
           'absorb',
           'abstract',
           'absurd',
-          'abuse'
+          'abuse',
         ],
       );
     });

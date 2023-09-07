@@ -7,9 +7,9 @@ edition = "2021"
 crate-type = ["staticlib", "cdylib"]
 
 [build-dependencies]
-flutter_rust_bridge_codegen = "1.80.1"
+flutter_rust_bridge_codegen = "1.75.2"
 
 [dependencies]
-flutter_rust_bridge = "1.80.1"
+flutter_rust_bridge = "1.75.2"
 bip39 = { version = "2.0.0", features = ["spanish", "rand"] }
 hex = "0.4.3"
